@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @EnableDiscoveryClient
 @Import({MybatisConfiguration.class})
-public class DutyManageWebConfiguration {
+public class ExampleWebConfiguration {
     public static void main(String[] args) {
-        SpringApplication.run(DutyManageWebConfiguration.class, args);
+        SpringApplication.run(ExampleWebConfiguration.class, args);
     }
 
 }

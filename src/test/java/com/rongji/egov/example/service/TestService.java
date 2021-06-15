@@ -24,7 +24,7 @@ public class TestService {
     public void testQueryFormList() {
         InputStream is = null;
         try {
-            is = TestService.class.getClassLoader().getResourceAsStream("select-example.json");
+            is = TestService.class.getClassLoader().getResourceAsStream("example-full.json");  //("select-example.json");
             System.out.println(">>> G1");
             ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
             byte[] buff = new byte[1024];
