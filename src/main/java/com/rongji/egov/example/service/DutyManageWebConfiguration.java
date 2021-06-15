@@ -1,7 +1,6 @@
 package com.rongji.egov.example.service;
 
 import com.rongji.egov.utils.mybatis.configuration.MybatisConfiguration;
-import com.rongji.egov.utils.spring.configuration.WebConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
