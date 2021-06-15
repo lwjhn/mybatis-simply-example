@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: example
+  jackson:
+    time-zone: GMT+8
+  #    date-format: yyyy-MM-dd HH:mm:ss
+server:
+  max-http-header-size: 256KB
+---
+spring:
+  profiles: dev
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.oscar.Driver
+    url: jdbc:oscar://192.168.210.134:2003/OSRDB
+    username: FJSZF
+    password: FJSZF
+mybatis:
+  configuration:
+    database-id: shentong
+logging:
+  level:
+    com.rongji.egov: debug
+server:
+  port: 3689

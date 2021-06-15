@@ -1,0 +1,209 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: duty
+  jackson:
+    time-zone: GMT+8
+feign:
+  client:
+    config:
+      feignName:
+        connectTimeout: 60000
+        readTimeout: 60000
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+    health-check-url-path: /actuator/health
+    lease-renewal-interval-in-seconds: 6 # 心跳时间
+    lease-expiration-duration-in-seconds: 18 # 超过当前时间，Eureka将会删除当前实例
+    metadata-map:
+      appProvider: true
+      startup: ${random.int}    #needed to trigger info and endpoint update after restart
+      displayName: 值班管理  # 展示在自主开发的监控中展示的中文名称
+  client:
+    registryFetchIntervalSeconds: 5
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  ServerListRefreshInterval: 5000 # ribbon拉取服务时间间隔
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+server:
+  max-http-header-size: 256KB
+---
+# 南平开发
+spring:
+  profiles: devNP
+  datasource:
+    driver-class-name: dm.jdbc.driver.DmDriver
+    url: jdbc:dm://10.60.21.6:5236
+    username: NPSOA
+    password: 123456789
+  rabbitmq:
+    host: 10.60.21.6
+    port: 5672
+    username: guest
+    password: guest
+  solr:
+    DefaultCollection: npsoa
+    ZkHost: 10.60.21.6:2166
+    ZkClientTimeout: 15000
+    ZkConnectTimeout: 50000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.60.21.5:2001/eureka/
+mybatis:
+  configuration:
+    database-id: dm
+server:
+  port: 3001
+logging:
+  level:
+    com.rongji.egov: debug
+gateway:
+  request-prefix: http://10.60.21.5:2080
+---
+# 开发配置
+spring:
+  profiles: dev
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  datasource:
+    driver-class-name: dm.jdbc.driver.DmDriver
+    url: jdbc:dm://192.168.210.134:5236
+    username: RJ_BUSINESS
+    password: 123456789
+  rabbitmq:
+    host: 192.168.0.40
+    port: 5672
+    username: guest
+    password: guest
+  redis:
+    host: 192.168.0.40
+    port: 6379
+    database: 8
+  solr:
+    DefaultCollection: Microservices
+    ZkHost: 192.168.210.134:2166
+    ZkClientTimeout: 15000
+    ZkConnectTimeout: 50000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.0.47:2001/eureka/
+  instance:
+    metadata-map:
+      zone: lwjhn-dev # 区域名 随便起一个，不要直接在这复制
+      invisible: DIFF_ZONE # 不同区域间的服务不可见（仅本区域可见）
+mybatis:
+  configuration:
+    database-id: dm
+server:
+  port: 3001
+logging:
+  level:
+    com.rongji.egov: debug
+gateway:
+  request-prefix: http://127.0.0.1:2080
+---
+# 开发配置
+spring:
+  profiles: test
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  datasource:
+    driver-class-name: dm.jdbc.driver.DmDriver
+    url: jdbc:dm://192.168.210.134:5236
+    username: RJ_BUSINESS
+    password: 123456789
+  rabbitmq:
+    host: 192.168.0.40
+    port: 5672
+    username: guest
+    password: guest
+  redis:
+    host: 192.168.0.40
+    port: 6379
+    database: 8
+  solr:
+    DefaultCollection: Microservices
+    ZkHost: 192.168.210.134:2166
+    ZkClientTimeout: 15000
+    ZkConnectTimeout: 50000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.0.47:2001/eureka/
+#  instance:
+#    metadata-map:
+#      zone: cwk # 区域名 随便起一个，不要直接在这复制
+#      invisible: DIFF_ZONE # 不同区域间的服务不可见（仅本区域可见）
+mybatis:
+  configuration:
+    database-id: dm
+server:
+  port: 3001
+logging:
+  level:
+    com.rongji.egov: debug
+gateway:
+  request-prefix: http://192.168.0.47:2080
+---
+# 测试环境 神通 福建省政府
+spring:
+  profiles: test129
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  datasource:
+    driver-class-name: com.oscar.Driver
+    url: jdbc:oscar://192.168.210.134:2003/OSRDB
+    username: FJSZF
+    password: FJSZF
+  solr:
+    DefaultCollection: fjszf
+    ZkHost: 192.168.210.134:2166
+    ZkClientTimeout: 15000
+    ZkConnectTimeout: 50000
+  redis:
+    host: 192.168.0.40
+    port: 6379
+    database: 13
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.210.129:2001/eureka/
+  instance:
+    metadata-map:
+      zone: zjm # 区域名 随便起一个，不要直接在这复制
+mybatis:
+  configuration:
+    database-id: shentong
+server:
+  port: 3001
+logging:
+  level:
+    com.rongji.egov: debug
+gateway:
+  request-prefix: http://192.168.210.129:2082

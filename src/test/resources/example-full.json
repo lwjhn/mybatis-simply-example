@@ -1,0 +1,872 @@
+[
+  {
+    "where": {
+      "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+      "value": [
+        "事故",
+        "2021-05-13T16:00:00.000Z",
+        "2021-06-14T15:59:59.000Z"
+      ]
+    },
+    "fields": [
+      {
+        "expression": "?",
+        "alias": "eventType",
+        "value": [
+          "事故"
+        ]
+      },
+      {
+        "expression": "ELT(INTERVAL(injuredPNumber, 3, 5, 7), ?,?,?)",
+        "alias": "subEventType",
+        "value": [
+          "受伤-3",
+          "受伤-5",
+          "受伤-7"
+        ]
+      },
+      {
+        "expression": "count(subEventType)",
+        "alias": "count"
+      },
+      {
+        "expression": "SUM(involvePNumber)",
+        "alias": "involve"
+      },
+      {
+        "expression": "SUM(injuredPNumber)",
+        "alias": "injured"
+      },
+      {
+        "expression": "SUM(deathPNumber)",
+        "alias": "death"
+      },
+      {
+        "expression": "SUM(missingPNumber)",
+        "alias": "missing"
+      }
+    ],
+    "group": [
+      "subEventType"
+    ],
+    "order": [
+      "subEventType ASC"
+    ],
+    "limit": [
+      0,
+      1000
+    ],
+    "unionAll": [
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "事件",
+            "2021-05-13T16:00:00.000Z",
+            "2021-06-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "事件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(injuredPNumber, 3, 5, 7), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "受伤-3",
+              "受伤-5",
+              "受伤-7"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      },
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "事件",
+            "2021-05-13T16:00:00.000Z",
+            "2021-06-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "事件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(deathPNumber, 1, 4, 5), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "死亡-1",
+              "死亡-4",
+              "死亡-5"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      },
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "案件",
+            "2021-05-13T16:00:00.000Z",
+            "2021-06-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "案件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(deathPNumber, 0, 3, 5), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "死亡-0",
+              "死亡-3",
+              "死亡-5"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      }
+    ]
+  },
+  {
+    "where": {
+      "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+      "value": [
+        "事故",
+        "2021-04-13T16:00:00.000Z",
+        "2021-05-14T15:59:59.000Z"
+      ]
+    },
+    "fields": [
+      {
+        "expression": "?",
+        "alias": "eventType",
+        "value": [
+          "事故"
+        ]
+      },
+      {
+        "expression": "ELT(INTERVAL(injuredPNumber, 3, 5, 7), ?,?,?)",
+        "alias": "subEventType",
+        "value": [
+          "受伤-3",
+          "受伤-5",
+          "受伤-7"
+        ]
+      },
+      {
+        "expression": "count(subEventType)",
+        "alias": "count"
+      },
+      {
+        "expression": "SUM(involvePNumber)",
+        "alias": "involve"
+      },
+      {
+        "expression": "SUM(injuredPNumber)",
+        "alias": "injured"
+      },
+      {
+        "expression": "SUM(deathPNumber)",
+        "alias": "death"
+      },
+      {
+        "expression": "SUM(missingPNumber)",
+        "alias": "missing"
+      }
+    ],
+    "group": [
+      "subEventType"
+    ],
+    "order": [
+      "subEventType ASC"
+    ],
+    "limit": [
+      0,
+      1000
+    ],
+    "unionAll": [
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "事件",
+            "2021-04-13T16:00:00.000Z",
+            "2021-05-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "事件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(injuredPNumber, 3, 5, 7), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "受伤-3",
+              "受伤-5",
+              "受伤-7"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      },
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "事件",
+            "2021-04-13T16:00:00.000Z",
+            "2021-05-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "事件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(deathPNumber, 1, 4, 5), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "死亡-1",
+              "死亡-4",
+              "死亡-5"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      },
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "案件",
+            "2021-04-13T16:00:00.000Z",
+            "2021-05-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "案件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(deathPNumber, 0, 3, 5), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "死亡-0",
+              "死亡-3",
+              "死亡-5"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      }
+    ]
+  },
+  {
+    "where": {
+      "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+      "value": [
+        "事故",
+        "2020-05-13T16:00:00.000Z",
+        "2020-06-14T15:59:59.000Z"
+      ]
+    },
+    "fields": [
+      {
+        "expression": "?",
+        "alias": "eventType",
+        "value": [
+          "事故"
+        ]
+      },
+      {
+        "expression": "ELT(INTERVAL(injuredPNumber, 3, 5, 7), ?,?,?)",
+        "alias": "subEventType",
+        "value": [
+          "受伤-3",
+          "受伤-5",
+          "受伤-7"
+        ]
+      },
+      {
+        "expression": "count(subEventType)",
+        "alias": "count"
+      },
+      {
+        "expression": "SUM(involvePNumber)",
+        "alias": "involve"
+      },
+      {
+        "expression": "SUM(injuredPNumber)",
+        "alias": "injured"
+      },
+      {
+        "expression": "SUM(deathPNumber)",
+        "alias": "death"
+      },
+      {
+        "expression": "SUM(missingPNumber)",
+        "alias": "missing"
+      }
+    ],
+    "group": [
+      "subEventType"
+    ],
+    "order": [
+      "subEventType ASC"
+    ],
+    "limit": [
+      0,
+      1000
+    ],
+    "unionAll": [
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "事件",
+            "2020-05-13T16:00:00.000Z",
+            "2020-06-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "事件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(injuredPNumber, 3, 5, 7), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "受伤-3",
+              "受伤-5",
+              "受伤-7"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      },
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "事件",
+            "2020-05-13T16:00:00.000Z",
+            "2020-06-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "事件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(deathPNumber, 1, 4, 5), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "死亡-1",
+              "死亡-4",
+              "死亡-5"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      },
+      {
+        "where": {
+          "expression": "eventType = ? AND eventTime BETWEEN ? AND ?",
+          "value": [
+            "案件",
+            "2020-05-13T16:00:00.000Z",
+            "2020-06-14T15:59:59.000Z"
+          ]
+        },
+        "fields": [
+          {
+            "expression": "?",
+            "alias": "eventType",
+            "value": [
+              "案件"
+            ]
+          },
+          {
+            "expression": "ELT(INTERVAL(deathPNumber, 0, 3, 5), ?,?,?)",
+            "alias": "subEventType",
+            "value": [
+              "死亡-0",
+              "死亡-3",
+              "死亡-5"
+            ]
+          },
+          {
+            "expression": "count(subEventType)",
+            "alias": "count"
+          },
+          {
+            "expression": "SUM(involvePNumber)",
+            "alias": "involve"
+          },
+          {
+            "expression": "SUM(injuredPNumber)",
+            "alias": "injured"
+          },
+          {
+            "expression": "SUM(deathPNumber)",
+            "alias": "death"
+          },
+          {
+            "expression": "SUM(missingPNumber)",
+            "alias": "missing"
+          }
+        ],
+        "group": [
+          "subEventType"
+        ],
+        "order": [
+          "subEventType ASC"
+        ],
+        "limit": [
+          0,
+          1000
+        ]
+      }
+    ]
+  },
+  {
+    "where": {
+      "expression": "(eventType = ? OR eventType = ? OR eventType = ? OR eventType = ? OR eventType = ? OR eventType = ?) AND eventTime BETWEEN ? AND ?",
+      "value": [
+        "汛情",
+        "震情",
+        "森林火灾",
+        "疫情",
+        "环境污染",
+        "前兆信息",
+        "2021-05-13T16:00:00.000Z",
+        "2021-06-14T15:59:59.000Z"
+      ]
+    },
+    "fields": [
+      {
+        "expression": "eventType"
+      },
+      {
+        "expression": "subEventType"
+      },
+      {
+        "expression": "count(subEventType)",
+        "alias": "count"
+      },
+      {
+        "expression": "SUM(involvePNumber)",
+        "alias": "involve"
+      },
+      {
+        "expression": "SUM(injuredPNumber)",
+        "alias": "injured"
+      },
+      {
+        "expression": "SUM(deathPNumber)",
+        "alias": "death"
+      },
+      {
+        "expression": "SUM(missingPNumber)",
+        "alias": "missing"
+      }
+    ],
+    "group": [
+      "eventType",
+      "subEventType"
+    ],
+    "order": [
+      "eventType ASC",
+      "subEventType ASC",
+      "count ASC"
+    ],
+    "limit": [
+      0,
+      1000
+    ]
+  },
+  {
+    "where": {
+      "expression": "(eventType = ? OR eventType = ? OR eventType = ? OR eventType = ? OR eventType = ? OR eventType = ?) AND eventTime BETWEEN ? AND ?",
+      "value": [
+        "汛情",
+        "震情",
+        "森林火灾",
+        "疫情",
+        "环境污染",
+        "前兆信息",
+        "2021-04-13T16:00:00.000Z",
+        "2021-05-14T15:59:59.000Z"
+      ]
+    },
+    "fields": [
+      {
+        "expression": "eventType"
+      },
+      {
+        "expression": "subEventType"
+      },
+      {
+        "expression": "count(subEventType)",
+        "alias": "count"
+      },
+      {
+        "expression": "SUM(involvePNumber)",
+        "alias": "involve"
+      },
+      {
+        "expression": "SUM(injuredPNumber)",
+        "alias": "injured"
+      },
+      {
+        "expression": "SUM(deathPNumber)",
+        "alias": "death"
+      },
+      {
+        "expression": "SUM(missingPNumber)",
+        "alias": "missing"
+      }
+    ],
+    "group": [
+      "eventType",
+      "subEventType"
+    ],
+    "order": [
+      "eventType ASC",
+      "subEventType ASC",
+      "count ASC"
+    ],
+    "limit": [
+      0,
+      1000
+    ]
+  },
+  {
+    "where": {
+      "expression": "(eventType = ? OR eventType = ? OR eventType = ? OR eventType = ? OR eventType = ? OR eventType = ?) AND eventTime BETWEEN ? AND ?",
+      "value": [
+        "汛情",
+        "震情",
+        "森林火灾",
+        "疫情",
+        "环境污染",
+        "前兆信息",
+        "2020-05-13T16:00:00.000Z",
+        "2020-06-14T15:59:59.000Z"
+      ]
+    },
+    "fields": [
+      {
+        "expression": "eventType"
+      },
+      {
+        "expression": "subEventType"
+      },
+      {
+        "expression": "count(subEventType)",
+        "alias": "count"
+      },
+      {
+        "expression": "SUM(involvePNumber)",
+        "alias": "involve"
+      },
+      {
+        "expression": "SUM(injuredPNumber)",
+        "alias": "injured"
+      },
+      {
+        "expression": "SUM(deathPNumber)",
+        "alias": "death"
+      },
+      {
+        "expression": "SUM(missingPNumber)",
+        "alias": "missing"
+      }
+    ],
+    "group": [
+      "eventType",
+      "subEventType"
+    ],
+    "order": [
+      "eventType ASC",
+      "subEventType ASC",
+      "count ASC"
+    ],
+    "limit": [
+      0,
+      1000
+    ]
+  }
+]

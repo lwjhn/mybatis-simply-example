@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rongji.egov.example.service.mapper.SubmitReportMapper">
+    <resultMap type="com.rongji.egov.example.service.model.SubmitReport" id="SubmitReportResultMap">
+        <result property="id" column="ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="subject" column="SUBJECT" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="eventPlace" column="EVENT_PLACE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="eventPlaceNo" column="EVENT_PLACE_NO" javaType="java.util.List" jdbcType="VARCHAR"/>
+        <result property="involvePNumber" column="INVOLVE_P_NUMBER" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result property="injuredPNumber" column="INJURED_P_NUMBER" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result property="deathPNumber" column="DEATH_P_NUMBER" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result property="missingPNumber" column="MISSING_P_NUMBER" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result property="eventTime" column="EVENT_TIME" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="eventType" column="EVENT_TYPE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="receiveTime" column="RECEIVE_TIME" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="reportType" column="REPORT_TYPE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="reportUnitName" column="REPORT_UNIT_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="reportUnitNo" column="REPORT_UNIT_NO" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="reportUserName" column="REPORT_USER_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="reportUserNo" column="REPORT_USER_NO" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="reportUserPhone" column="REPORT_USER_PHONE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="mainSend" column="MAIN_SEND" javaType="java.util.List" jdbcType="VARCHAR"/>
+        <result property="copySend" column="COPY_SEND" javaType="java.util.List" jdbcType="VARCHAR"/>
+        <result property="draftUserName" column="DRAFT_USER_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="draftUserNo" column="DRAFT_USER_NO" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="draftDeptName" column="DRAFT_DEPT_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="draftDeptNo" column="DRAFT_DEPT_NO" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="draftUnitName" column="DRAFT_UNIT_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="draftUnitNo" column="DRAFT_UNIT_NO" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="draftFlag" column="DRAFT_FLAG" javaType="java.lang.String" jdbcType="CHAR"/>
+        <result property="readFlag" column="READ_FLAG" javaType="java.lang.String" jdbcType="CHAR"/>
+        <result property="createTime" column="CREATE_TIME" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="eventSituation" column="EVENT_SITUATION" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="attachdesc" column="ATTACHDESC" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="opinion" column="OPINION" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="recordId" column="RECORD_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="todoReader" column="TODO_READER"
+                typeHandler="com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler"/>
+        <result property="atdoReader" column="ATDO_READER"
+                typeHandler="com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler"/>
+        <result property="passReader" column="PASS_READER"
+                typeHandler="com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler"/>
+        <result property="referReader" column="REFER_READER"
+                typeHandler="com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler"/>
+        <result property="extensionReader" column="EXTENSION_READER"
+                typeHandler="com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler"/>
+        <result property="docSequence" column="DOC_SEQUENCE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="docCate" column="DOC_CATE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="dealFormId" column="DEAL_FORM_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="flowDoneUser" column="FLOW_DONE_USER" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="flowStatus" column="FLOW_STATUS" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="flowLabel" column="FLOW_LABEL" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="flowVersion" column="FLOW_VERSION" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="flowProcessId" column="FLOW_PROCESS_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="systemNo" column="SYSTEM_NO" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="systemNo" column="SYSTEM_NO" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="netRecordId" column="NET_RECORD_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="subEventType" column="SUB_EVENT_TYPE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="secLevel" column="SEC_LEVEL" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="opinionNum" column="OPINION_NUM" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result property="urgerUnit" column="URGER_UNIT" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="urgerMark" column="URGER_MARK" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="outIntranet" column="OUT_INTRANET" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+</mapper>
