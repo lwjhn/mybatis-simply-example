@@ -13,9 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class TestService {
     @Resource
     StatisticMapper statisticMapper;
@@ -24,7 +25,7 @@ public class TestService {
     public void testQueryFormList() {
         InputStream is = null;
         try {
-            is = TestService.class.getClassLoader().getResourceAsStream("example-full.json");  //("select-example.json");
+            is = TestService.class.getClassLoader().getResourceAsStream("select-example.json");
             System.out.println(">>> G1");
             ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
             byte[] buff = new byte[1024];
@@ -32,14 +33,19 @@ public class TestService {
             while ((rc = is.read(buff, 0, 1024)) > 0) {
                 swapStream.write(buff, 0, rc);
             }
-            System.out.println(">>> G3");
+            //System.out.println(">>> G2 ------------>");
+            //System.out.println(new String(swapStream.toByteArray()));
+            System.out.println(">>> G3 ------------>");
             SQLSelector selector = JSONObject.parseObject(new String(swapStream.toByteArray()), SQLSelector.class);
             selector.setModel(SubmitReport.class);
             System.out.println(JSON.toJSONString(selector, true));
 
             System.out.println(">>> G4 ------------>");
             System.out.println(JSON.toJSONString(statisticMapper.query(selector), true));
-
+            System.out.println(">>> G5 ------------>");
+            for(Field field : SQLSelector.class.getDeclaredFields()){
+                System.out.println(field);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -1,4 +1,8 @@
 {
+  "having": {
+    "expression": "count(subEventType)>?",
+    "value": [2]
+  },
   "fields": [
     {
       "expression": "eventType"
