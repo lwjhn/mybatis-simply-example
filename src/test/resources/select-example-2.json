@@ -1,0 +1,47 @@
+{
+  "having": {
+    "expression": "count(subEventType)>?",
+    "value": [2]
+  },
+  "fields": [
+    {
+      "expression": "eventType"
+    },
+    {
+      "expression": "subEventType"
+    },
+    {
+      "expression": "count(subEventType)",
+      "alias": "count"
+    }
+  ],
+  "where": {
+    "expression": "eventTime>=? AND eventTime<=? AND ( eventPlace LIKE ? OR eventPlace LIKE ?)\nAND (\n\t(eventType = ? AND (subEventType=? OR subEventType=?) )\n\tOR subEventType = ?\n\tOR (eventType = ? AND (subEventType=? OR subEventType=?) )\n)",
+    "value": [
+      "2010-06-02",
+      "2021-07-14",
+      "%福州%",
+      "%厦门%",
+      "案件",
+      "刑事案件",
+      "民事案件",
+      "事件",
+      "环境污染",
+      "土壤污染",
+      "大气污染"
+    ]
+  },
+  "group": [
+    "eventType",
+    "subEventType"
+  ],
+  "order": [
+    "eventType ASC",
+    "subEventType ASC",
+    "count ASC"
+  ],
+  "limit": [
+    0,
+    1000
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "fields": [
+    {
+      "expression": "id"
+    },
+    {
+      "expression": "subject"
+    },
+    {
+      "expression": "eventTime"
+    }
+  ],
+  "where": {
+    "expression": "eventTime>=? AND eventTime<=? AND ( eventPlace LIKE ? OR eventPlace LIKE ?)\nAND (\n\t(eventType = ? AND (subEventType=? OR subEventType=?) )\n\tOR subEventType = ?\n\tOR (eventType = ? AND (subEventType=? OR subEventType=?) )\n)",
+    "value": [
+      "2010-06-02",
+      "2021-07-14",
+      "%福州%",
+      "%厦门%",
+      "案件",
+      "刑事案件",
+      "民事案件",
+      "事件",
+      "环境污染",
+      "土壤污染",
+      "大气污染"
+    ]
+  },
+  "order": [
+    "eventTime ASC"
+  ],
+  "limit": [0, 5]
+}

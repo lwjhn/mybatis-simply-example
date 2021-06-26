@@ -30,7 +30,7 @@ public class StatisticMngImpl extends BaseServiceImpl<HashMap<String, ?>> implem
     }
 
     @Override
-    public void preproccess(SQLSelector query) {
+    public void preprocesses(SQLSelector query) {
         setQueryTable(query);
     }
 }

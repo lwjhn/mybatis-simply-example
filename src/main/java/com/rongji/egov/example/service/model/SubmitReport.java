@@ -1,22 +1,21 @@
 package com.rongji.egov.example.service.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.rongji.egov.mybatis.base.annotation.Permission;
+import com.rongji.egov.mybatis.base.annotation.PermissionType;
 import com.rongji.egov.mybatis.base.annotation.TableName;
 import com.rongji.egov.utils.spring.validation.InsertValidate;
 import com.rongji.egov.utils.spring.validation.UpdateValidate;
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-@TableName("EGOV_DUTY_SUBMIT_REPORT")
-public class SubmitReport implements Serializable {
+@TableName(value = "EGOV_DUTY_SUBMIT_REPORT", permission = true)
+public class SubmitReport extends AbstractWorkflowBase implements Serializable {
     /**
      * ID
      */
@@ -111,6 +110,8 @@ public class SubmitReport implements Serializable {
     /**
      * 值班员ID
      */
+
+    @Permission(value = {PermissionType.USER})
     private String draftUserNo;
     /**
      * 登记部门
