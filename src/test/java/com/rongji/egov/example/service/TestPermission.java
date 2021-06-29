@@ -2,18 +2,12 @@ package com.rongji.egov.example.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.rongji.egov.example.service.mapper.StatisticMapper;
 import com.rongji.egov.example.service.model.SubmitReport;
-import com.rongji.egov.mybatis.base.annotation.Permission;
-import com.rongji.egov.mybatis.base.annotation.TableName;
 import com.rongji.egov.mybatis.base.model.SQLSelector;
 import com.rongji.egov.mybatis.base.permission.DocPermissionProcessor;
 import com.rongji.egov.mybatis.base.permission.IDocPermission;
-import com.rongji.egov.mybatis.base.permission.PermissionFieldIterator;
 import com.rongji.egov.mybatis.base.utils.ApplicationUtils;
 import com.rongji.egov.mybatis.web.config.RJWebServiceConfig;
-import com.rongji.egov.mybatis.web.dao.NormalDao;
-import com.rongji.egov.mybatis.web.dao.impl.NormalDaoImpl;
 import com.rongji.egov.mybatis.web.mapper.NormalMapper;
 import com.rongji.egov.mybatis.web.service.NormalService;
 import org.apache.commons.beanutils.BeanUtils;
@@ -29,16 +23,15 @@ import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestPermission {
     @Resource
-    StatisticMapper statisticMapper;
+    NormalMapper normalMapper;
 
     void access(SQLSelector query) {
         DocPermissionProcessor.process(query, new IDocPermission() {
