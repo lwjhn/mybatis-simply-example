@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.rongji.egov.example.service.mapper.StatisticMapper;
 import com.rongji.egov.example.service.model.SubmitReport;
 import com.rongji.egov.mybatis.base.model.SQLSelector;
+import com.rongji.egov.mybatis.base.utils.SQLChecker;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,7 @@ import java.lang.reflect.Field;
 public class TestService {
     @Resource
     StatisticMapper statisticMapper;
+
 
     @Test
     public void testQueryFormList() {

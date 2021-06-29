@@ -16,6 +16,8 @@ import java.util.*;
 
 @TableName(value = "EGOV_DUTY_SUBMIT_REPORT", permission = true)
 public class SubmitReport extends AbstractWorkflowBase implements Serializable {
+    @Permission(prefix = "%\"", suffix = "\"%")
+    private ArrayList<Object> todoReader;
     /**
      * ID
      */
