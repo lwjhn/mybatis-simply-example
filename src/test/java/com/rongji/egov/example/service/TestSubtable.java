@@ -2,13 +2,13 @@ package com.rongji.egov.example.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.ParserConfig;
+import com.rongji.egov.example.service.model.SQLSelector1;
 import com.rongji.egov.example.service.model.SubmitReport;
 import com.rongji.egov.mybatis.base.model.SQLSelector;
-import com.rongji.egov.mybatis.base.permission.DocPermissionProcessor;
 import com.rongji.egov.mybatis.base.permission.IDocPermission;
 import com.rongji.egov.mybatis.base.utils.ApplicationUtils;
 import com.rongji.egov.mybatis.web.config.RJWebServiceConfig;
-import com.rongji.egov.mybatis.web.mapper.NormalMapper;
 import com.rongji.egov.mybatis.web.service.NormalService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.ibatis.mapping.ResultMap;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class TestPermission {
+public class TestSubtable {
     @Resource
     NormalService normalService;
 
@@ -42,7 +42,7 @@ public class TestPermission {
 
             @Override
             public Collection<String> getOrgNoList() {
-                return new ArrayList<String>(){{
+                return new ArrayList<String>() {{
                     add("D00001");
                     add("D00005");
                     add("D00024");
@@ -51,7 +51,7 @@ public class TestPermission {
 
             @Override
             public Collection<String> getRoleNoList() {
-                return new ArrayList<String>(){{
+                return new ArrayList<String>() {{
                     add("sys_manager");
                     add("D00005_csfzr");
                 }};
@@ -59,7 +59,7 @@ public class TestPermission {
 
             @Override
             public Collection<String> getGroupNoList() {
-                return new ArrayList<String>(){{
+                return new ArrayList<String>() {{
                     add("D00003_csgly");
                     add("D00005_csfzr");
                 }};
@@ -72,11 +72,43 @@ public class TestPermission {
 
     @Test
     public void testQueryFormList() {
-        System.out.println(JSON.toJSONString(webServiceConfig.getModelMap(),  true));
+        System.out.println(JSON.toJSONString(webServiceConfig.getModelMap(), true));
 
         InputStream is = null;
         try {
-            is = TestPermission.class.getClassLoader().getResourceAsStream("example-full-group.json");   //("select-example-permission.json");
+            is = TestSubtable.class.getClassLoader().getResourceAsStream("example-sub-table.json");
+            System.out.println(">>> G1");
+            ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+            byte[] buff = new byte[1024];
+            int rc = 0;
+            while ((rc = is.read(buff, 0, 1024)) > 0) {
+                swapStream.write(buff, 0, rc);
+            }
+            System.out.println(">>> G3 ------------>");
+            SQLSelector selector = JSONObject.parseObject(new String(swapStream.toByteArray()), SQLSelector.class);
+            selector.setModel(SubmitReport.class);
+            System.out.println(">>> G4------------->");
+            System.out.println(JSON.toJSONString(normalService.queryPage(selector, null), true));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) try {
+                is.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    @Test
+    public void testJSON() {
+        System.out.println(JSON.toJSONString(webServiceConfig.getModelMap(), true));
+
+        InputStream is = null;
+        try {
+
+            //ParserConfig.getGlobalInstance().putDeserializer(SQLSelector.class, new SQLSelectorDeserializer());
+
+            is = TestSubtable.class.getClassLoader().getResourceAsStream("select-example-permission.json");
             System.out.println(">>> G1");
             ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
             byte[] buff = new byte[1024];
@@ -87,19 +119,19 @@ public class TestPermission {
             //System.out.println(">>> G2 ------------>");
             //System.out.println(new String(swapStream.toByteArray()));
             System.out.println(">>> G3 ------------>");
-            SQLSelector selector = JSONObject.parseObject(new String(swapStream.toByteArray()), SQLSelector.class);
-            selector.setModel(SubmitReport.class);
-            //System.out.println(JSON.toJSONString(selector, true));
+            SQLSelector1 selector = JSONObject.parseObject(new String(swapStream.toByteArray()), SQLSelector1.class);
 
-            System.out.println(">>> G4 ------------>");
-            //access(selector);
-
-            System.out.println(normalService.query(selector, null));
-            //List<HashMap<String, ?>> result = ;
-            //System.out.println(JSON.toJSONString(result, true));
-            System.out.println(">>> G5 ------------>");
-//            SubmitReport submitReport = (SubmitReport) toBean(result.get(0), SubmitReport.class);
-//            System.out.println(JSON.toJSONString(submitReport, true));
+            System.out.println(selector.getTable());
+            if (selector.getTable() != null) {
+                System.out.println(selector.getTable().getClass().getName());
+                if (selector.getTable() instanceof SQLSelector1) {
+                    System.out.println(((SQLSelector1) selector.getTable()).getFields().get(0).getExpression());
+                } else {
+                    System.out.println(selector.getTable());
+                }
+            } else {
+                System.out.println("selector.getTable()---> null");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -122,14 +154,14 @@ public class TestPermission {
     }
 
     @Test
-    public void test6(){
+    public void test6() {
         SqlSessionTemplate sqlSessionTemplate = ApplicationUtils.getBean(SqlSessionTemplate.class);
         Configuration configuration = sqlSessionTemplate.getConfiguration();
         ResultMap resultMap;
-        for(String key : configuration.getResultMapNames()){
-            if(! key.contains(".")) continue;
+        for (String key : configuration.getResultMapNames()) {
+            if (!key.contains(".")) continue;
             System.out.println(key);
-            resultMap=configuration.getResultMap(key);
+            resultMap = configuration.getResultMap(key);
             System.out.println(resultMap.getType() + "-->" + resultMap.getId());
         }
 /*

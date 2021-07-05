@@ -1,0 +1,43 @@
+{
+  "model": "com.rongji.egov.example.service.model.SubmitReport",
+  "fields": [
+    {
+      "expression": "?",
+      "alias": "eventType",
+      "value": [
+        "事故"
+      ]
+    },
+    {
+      "expression": "count(subEventType)",
+      "alias": "count"
+    },
+    {
+      "expression": "SUM(involvePNumber)",
+      "alias": "involve"
+    },
+    {
+      "expression": "SUM(injuredPNumber)",
+      "alias": "injured"
+    },
+    {
+      "expression": "SUM(deathPNumber)",
+      "alias": "death"
+    },
+    {
+      "expression": "SUM(missingPNumber)",
+      "alias": "missing"
+    }
+  ],
+  "group": {
+    "expression": "?",
+    "alias": "eventType",
+    "value": [
+      "事故"
+    ]
+  },
+  "limit": [
+    0,
+    1000
+  ]
+}

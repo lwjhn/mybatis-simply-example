@@ -31,10 +31,7 @@
       "大气污染"
     ]
   },
-  "group": [
-    "eventType",
-    "subEventType"
-  ],
+  "group": "eventType, subEventType",
   "order": [
     "eventType ASC",
     "subEventType ASC",
