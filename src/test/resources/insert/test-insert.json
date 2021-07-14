@@ -1,0 +1,15 @@
+{
+  "model":"com.rongji.egov.example.service.model.SubmitReport",
+  "values":{
+    "createTime":1626228997395,
+    "deathPNumber":1,
+    "draftDeptNo":"U000001",
+    "draftUserName":"系统管理员",
+    "eventTime":1626228997395,
+    "eventType":"案件",
+    "id":"T3-1626228997395",
+    "missingPNumber":3,
+    "subEventType":"刑事案件",
+    "subject":"测试-common-insert-1626228997395"
+  }
+}

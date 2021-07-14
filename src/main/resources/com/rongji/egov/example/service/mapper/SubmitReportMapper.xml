@@ -63,6 +63,11 @@
         <result property="urgerUnit" column="URGER_UNIT" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result property="urgerMark" column="URGER_MARK" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result property="outIntranet" column="OUT_INTRANET" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result column="TODO_READER" jdbcType="LONGVARCHAR" property="todoReader" />
+        <result column="ATDO_READER" jdbcType="LONGVARCHAR" property="atdoReader" />
+        <result column="PASS_READER" jdbcType="LONGVARCHAR" property="passReader" />
+        <result column="REFER_READER" jdbcType="LONGVARCHAR" property="referReader" />
+        <result column="EXTENSION_READER" jdbcType="LONGVARCHAR" property="extensionReader" />
     </resultMap>
 
 </mapper>
