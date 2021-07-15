@@ -3,7 +3,6 @@ package com.rongji.egov.example.service.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class AbstractWorkflowBase {
     private String flowProcessId;
