@@ -2,10 +2,7 @@ package com.rongji.egov.example.service;
 
 import com.alibaba.fastjson.JSON;
 import com.rongji.egov.example.service.model.SubmitReport;
-import com.rongji.egov.mybatis.base.model.SQLCriteria;
-import com.rongji.egov.mybatis.base.model.SQLInserter;
-import com.rongji.egov.mybatis.base.model.SQLSelector;
-import com.rongji.egov.mybatis.base.model.SQLUpdater;
+import com.rongji.egov.mybatis.base.model.*;
 import com.rongji.egov.mybatis.base.utils.StringUtils;
 import com.rongji.egov.mybatis.web.service.NormalService;
 import org.junit.Test;
@@ -17,6 +14,7 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -39,27 +37,38 @@ public class TestInsert {
         submitReport.setDraftDeptNo("U000001");
         SQLInserter inserter = new SQLInserter(submitReport);
         System.out.println(JSON.toJSONString(inserter, true));
-        System.out.println(normalService.insert(inserter));
+        System.out.println(normalService.execute(inserter, null));
     }
 
     @Test
     public void test4() {
+        String id = "T3-1626677444671";
         SubmitReport submitReport = new SubmitReport();
-        submitReport.setId("T3-1626347734315");
+        submitReport.setId(id);
         submitReport.setCreateTime(new Date());
         submitReport.setEventTime(new Date());
         submitReport.setDeathPNumber(1);
         submitReport.setMissingPNumber(3);
-        submitReport.setSubject("修改-1-测试-common-insert-" + new Date().getTime());
+        submitReport.setSubject("修改-2-测试-common-update-" + new Date().getTime());
         submitReport.setEventType("案件");
         submitReport.setSubEventType("刑事案件");
         submitReport.setDraftUserName("系统管理员");
         submitReport.setDraftDeptNo("U000001");
         SQLUpdater updater = new SQLUpdater(submitReport, new SQLCriteria("id = ?", new ArrayList<Object>() {{
-            add("T3-1626347734315");
+            add(id);
         }}));
         System.out.println(JSON.toJSONString(updater, true));
-        System.out.println(normalService.update(updater, null));
+        System.out.println(normalService.execute(updater, null));
+    }
+
+    @Test
+    public void testDelete() {
+        String id = "T3-%";
+        SQLDeleter handle = new SQLDeleter(SubmitReport.class, new SQLCriteria("id LIKE ?", new ArrayList<Object>() {{
+            add(id);
+        }}));
+        System.out.println(JSON.toJSONString(handle, true));
+        System.out.println(normalService.execute(handle, null));
     }
 
     @Test
@@ -73,8 +82,11 @@ public class TestInsert {
         ));
     }
 
-    //@Test
+    @Test
     public void test5() {
+        System.out.println(Pattern.compile("^\\.*ofd$", Pattern.CASE_INSENSITIVE).matcher("OFD").matches());
+        System.out.println(Pattern.compile("^\\.*ofd$", Pattern.CASE_INSENSITIVE).matcher("..OFD").matches());
+        System.out.println(Pattern.compile("^\\.*ofd$", Pattern.CASE_INSENSITIVE).matcher(".32OFD").matches());
         System.out.println(StringUtils.camelToUnderline("eventPlaceNo"));
         System.out.println(StringUtils.camelToUnderline("missingPNumber"));
         System.out.println(StringUtils.camelToUnderline("missingPUABNumber"));
