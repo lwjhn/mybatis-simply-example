@@ -9,6 +9,7 @@ import com.rongji.egov.mybatis.base.querier.*;
 import com.rongji.egov.mybatis.base.sql.*;
 import com.rongji.egov.mybatis.base.utils.StringUtils;
 import com.rongji.egov.mybatis.base.wrapper.HashCamelMap;
+import com.rongji.egov.workflow.FlowReaderList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -90,7 +91,7 @@ public class TestInsert {
             add(0);
             add(6);
         }});
-        selector.setFields(SQLWrapper.getSqlFields(SubmitReport.class));
+        selector.setFields(SQLWrapper.getSqlFields(SubmitReport.class, true));
 
         Page<HashCamelMap> test = generalMapper.select(new SelectSimpleQuerier<Page<HashCamelMap>>(selector) {
         });
@@ -99,7 +100,9 @@ public class TestInsert {
 
         Page<SubmitReport> reportPage = generalMapper.select(new SelectPageQuerier<>(selector, SubmitReport.class));
 
+        selector.setFields(SQLWrapper.getSqlFields(SubmitReport.class));
         List<SubmitReport> reports = generalMapper.select(new SelectListQuerier<>(selector, SubmitReport.class));
+        FlowReaderList flowReaderList = reports.get(0).getTodoReader();
 
         selector.setWhere(new SQLCriteria("id=?", new ArrayList<Object>() {{
             add("abcdefg");

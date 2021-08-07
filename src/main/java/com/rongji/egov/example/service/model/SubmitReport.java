@@ -568,4 +568,14 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
     public String getSubject() {
         return subject;
     }
+
+    @Override
+    public FlowReaderList getTodoReader() {
+        return todoReader;
+    }
+
+    @Override
+    public void setTodoReader(FlowReaderList todoReader) {
+        this.todoReader = todoReader;
+    }
 }

@@ -14,7 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@MapperScan({"com.rongji.egov.example.service.mapper"})
+//@MapperScan({"com.rongji.egov.example.service.mapper"})
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableTransactionManagement
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         ClientConfiguration.class,
         UserClientConfiguration.class,
         AppSupportConfiguration.class,
-        MybatisConfiguration.class,
+        //MybatisConfiguration.class,
         IgnoredPathsConfiguration.class,})
 public class ExampleWebConfiguration {
     public static void main(String[] args) {
