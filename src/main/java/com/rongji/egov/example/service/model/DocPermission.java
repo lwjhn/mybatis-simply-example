@@ -1,6 +1,6 @@
 package com.rongji.egov.example.service.model;
 
-import com.rongji.egov.mybatis.base.permission.IDocPermission;
+import com.rongji.egov.mybatis.web.permission.IDocPermission;
 import com.rongji.egov.user.model.RmsRole;
 
 import java.io.Serializable;

@@ -8,6 +8,9 @@
     },
     {
       "expression": "eventTime"
+    },
+    {
+      "expression": "todoReader"
     }
   ],
   "where": {

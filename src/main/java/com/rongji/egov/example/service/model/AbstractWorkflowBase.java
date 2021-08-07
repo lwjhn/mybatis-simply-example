@@ -1,6 +1,7 @@
 package com.rongji.egov.example.service.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.rongji.egov.workflow.FlowReaderList;
 
 import java.util.ArrayList;
 
@@ -11,17 +12,17 @@ public class AbstractWorkflowBase {
     private String flowStatus;
 
     //@Permission(prefix = "%\"", suffix = "\"%")
-    private ArrayList<Object> todoReader;
+    private FlowReaderList todoReader;
 
     //@Permission(prefix = "%\"", suffix = "\"%")
-    private ArrayList<Object> atdoReader;
+    private FlowReaderList atdoReader;
 
     //@Permission(prefix = "%\"", suffix = "\"%")
-    private ArrayList<Object> passReader;
-    private ArrayList<Object> referReader;
+    private FlowReaderList passReader;
+    private FlowReaderList referReader;
 
     //@Permission(prefix = "%\"", suffix = "\"%")
-    private ArrayList<Object> extensionReader;
+    private FlowReaderList extensionReader;
     @JsonFormat(
             pattern = "yyyy-MM-dd HH:mm:ss"
     )
@@ -62,47 +63,47 @@ public class AbstractWorkflowBase {
         this.flowStatus = flowStatus;
     }
 
-    public ArrayList<Object> getTodoReader() {
+    public FlowReaderList getTodoReader() {
         return todoReader;
     }
 
-    public void setTodoReader(ArrayList<Object> todoReader) {
+    public void setTodoReader(FlowReaderList todoReader) {
         this.todoReader = todoReader;
     }
 
-    public ArrayList<Object> getAtdoReader() {
+    public FlowReaderList getAtdoReader() {
         return atdoReader;
     }
 
-    public void setAtdoReader(ArrayList<Object> atdoReader) {
+    public void setAtdoReader(FlowReaderList atdoReader) {
         this.atdoReader = atdoReader;
     }
 
-    public ArrayList<Object> getPassReader() {
+    public FlowReaderList getPassReader() {
         return passReader;
     }
 
-    public void setPassReader(ArrayList<Object> passReader) {
+    public void setPassReader(FlowReaderList passReader) {
         this.passReader = passReader;
     }
 
-    public ArrayList<Object> getReferReader() {
+    public FlowReaderList getReferReader() {
         return referReader;
     }
 
-    public void setReferReader(ArrayList<Object> referReader) {
+    public void setReferReader(FlowReaderList referReader) {
         this.referReader = referReader;
     }
 
-    public ArrayList<Object> getExtensionReader() {
+    public FlowReaderList getExtensionReader() {
         return extensionReader;
     }
 
-    public void setExtensionReader(ArrayList<Object> extensionReader) {
+    public void setExtensionReader(FlowReaderList extensionReader) {
         this.extensionReader = extensionReader;
     }
 
-//    public Date getOperatorTime() {
+    //    public Date getOperatorTime() {
 //        return operatorTime;
 //    }
 //

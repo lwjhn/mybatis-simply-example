@@ -1,2 +1,2 @@
-# rj-mybatis-plus-example
+# mybatis-simply-example
 

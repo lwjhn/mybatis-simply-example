@@ -36,8 +36,7 @@
         <result property="remark" column="REMARK" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result property="opinion" column="OPINION" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result property="recordId" column="RECORD_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="todoReader" column="TODO_READER"
-                typeHandler="com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler"/>
+        <result property="todoReader" column="TODO_READER" />
         <result property="atdoReader" column="ATDO_READER"
                 typeHandler="com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler"/>
         <result property="passReader" column="PASS_READER"

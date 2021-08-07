@@ -4,20 +4,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rongji.egov.mybatis.base.annotation.Permission;
 import com.rongji.egov.mybatis.base.annotation.PermissionType;
 import com.rongji.egov.mybatis.base.annotation.TableName;
+import com.rongji.egov.mybatis.base.annotation.TypeHandler;
+import com.rongji.egov.mybatis.base.wrapper.JsonTypeHandler;
 import com.rongji.egov.utils.spring.validation.InsertValidate;
 import com.rongji.egov.utils.spring.validation.UpdateValidate;
+import com.rongji.egov.workflow.FlowReaderList;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @TableName(value = "EGOV_DUTY_SUBMIT_REPORT", permission = true)
 public class SubmitReport extends AbstractWorkflowBase implements Serializable {
+    @TypeHandler(value = JsonTypeHandler.class)
     @Permission(prefix = "%\"", suffix = "\"%")
-    private ArrayList<Object> todoReader;
+    private FlowReaderList todoReader;
     /**
      * ID
      */
@@ -212,10 +217,6 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getSubject() {
-        return subject;
     }
 
     public void setSubject(String subject) {
@@ -558,10 +559,13 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
         this.subEventType = subEventType;
     }
 
-    public <T> T toTargetObject(Class<T> target) throws Exception{
+    public <T> T toTargetObject(Class<T> target) throws Exception {
         T object = target.newInstance();
-        BeanUtils.copyProperties(this,object);
+        BeanUtils.copyProperties(this, object);
         return object;
     }
 
+    public String getSubject() {
+        return subject;
+    }
 }

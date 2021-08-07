@@ -2,9 +2,13 @@ package com.rongji.egov.example.service;
 
 import com.alibaba.fastjson.JSON;
 import com.rongji.egov.example.service.model.SubmitReport;
-import com.rongji.egov.mybatis.base.model.*;
+import com.rongji.egov.mybatis.base.builder.SQLWrapper;
+import com.rongji.egov.mybatis.base.mapper.GeneralMapper;
+import com.rongji.egov.mybatis.base.plugin.Page;
+import com.rongji.egov.mybatis.base.querier.*;
+import com.rongji.egov.mybatis.base.sql.*;
 import com.rongji.egov.mybatis.base.utils.StringUtils;
-import com.rongji.egov.mybatis.web.service.NormalService;
+import com.rongji.egov.mybatis.base.wrapper.HashCamelMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,13 +18,14 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestInsert {
     @Resource
-    NormalService normalService;
+    GeneralMapper generalMapper;
 
     @Test
     public void test1() {
@@ -37,12 +42,14 @@ public class TestInsert {
         submitReport.setDraftDeptNo("U000001");
         SQLInserter inserter = new SQLInserter(submitReport);
         System.out.println(JSON.toJSONString(inserter, true));
-        System.out.println(normalService.execute(inserter, null));
+
+        System.out.println(generalMapper.update(new UpdateQuerier(inserter)));
+
     }
 
     @Test
     public void test4() {
-        String id = "T3-1626677444671";
+        String id = "T3-1628162962383";
         SubmitReport submitReport = new SubmitReport();
         submitReport.setId(id);
         submitReport.setCreateTime(new Date());
@@ -58,7 +65,8 @@ public class TestInsert {
             add(id);
         }}));
         System.out.println(JSON.toJSONString(updater, true));
-        System.out.println(normalService.execute(updater, null));
+
+        System.out.println(generalMapper.update(new UpdateQuerier(updater)));
     }
 
     @Test
@@ -68,18 +76,39 @@ public class TestInsert {
             add(id);
         }}));
         System.out.println(JSON.toJSONString(handle, true));
-        System.out.println(normalService.execute(handle, null));
+        System.out.println(generalMapper.update(new UpdateQuerier(handle)));
     }
 
     @Test
     public void test3() {
-        System.out.println(normalService.queryCount(new SQLSelector(SubmitReport.class), null));
-        System.out.println(normalService.queryCount(new SQLSelector(
+        SQLSelector selector = new SQLSelector(
                 new SQLCriteria("subject LIKE ?",
                         new ArrayList<Object>() {{
                             add("%测试%");
-                        }}), SubmitReport.class), null
-        ));
+                        }}), SubmitReport.class);
+        selector.setLimit(new ArrayList<Integer>() {{
+            add(0);
+            add(6);
+        }});
+        selector.setFields(SQLWrapper.getSqlFields(SubmitReport.class));
+
+        Page<HashCamelMap> test = generalMapper.select(new SelectSimpleQuerier<Page<HashCamelMap>>(selector) {
+        });
+
+        Page<HashCamelMap> reportHashCamelMap = generalMapper.select(new SelectPageQuerier<>(selector, HashCamelMap.class));
+
+        Page<SubmitReport> reportPage = generalMapper.select(new SelectPageQuerier<>(selector, SubmitReport.class));
+
+        List<SubmitReport> reports = generalMapper.select(new SelectListQuerier<>(selector, SubmitReport.class));
+
+        selector.setWhere(new SQLCriteria("id=?", new ArrayList<Object>() {{
+            add("abcdefg");
+        }}));
+        SubmitReport report = generalMapper.select(new SelectOneQuerier<>(
+                selector,
+                SubmitReport.class)
+        );
+        System.out.println(JSON.toJSONString(test));
     }
 
     @Test
@@ -87,10 +116,8 @@ public class TestInsert {
         System.out.println(Pattern.compile("^\\.*ofd$", Pattern.CASE_INSENSITIVE).matcher("OFD").matches());
         System.out.println(Pattern.compile("^\\.*ofd$", Pattern.CASE_INSENSITIVE).matcher("..OFD").matches());
         System.out.println(Pattern.compile("^\\.*ofd$", Pattern.CASE_INSENSITIVE).matcher(".32OFD").matches());
-        System.out.println(StringUtils.camelToUnderline("eventPlaceNo"));
-        System.out.println(StringUtils.camelToUnderline("missingPNumber"));
-        System.out.println(StringUtils.camelToUnderline("missingPUABNumber"));
-        System.out.println(StringUtils.camelToUnderline("missingPUABNumber12"));
+        System.out.println(StringUtils.camelToUpperUnderscore("eventPlaceNo"));
+        System.out.println(StringUtils.camelToLowerUnderline("missingPNumber"));
     }
 
     public static boolean newFile(File file, byte[] buff) throws Exception {

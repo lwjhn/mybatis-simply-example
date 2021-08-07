@@ -19,11 +19,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableDiscoveryClient
 @EnableTransactionManagement
 @Import({WebConfiguration.class,
-        MybatisConfiguration.class,
         SecurityServiceConfiguration.class,
         ClientConfiguration.class,
         UserClientConfiguration.class,
         AppSupportConfiguration.class,
+        MybatisConfiguration.class,
         IgnoredPathsConfiguration.class,})
 public class ExampleWebConfiguration {
     public static void main(String[] args) {
