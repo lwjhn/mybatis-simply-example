@@ -1,10 +1,11 @@
 {
+  "tableAlias": "t",
   "fields": [
     {
-      "expression": "id"
+      "expression": "t.id"
     },
     {
-      "expression": "subject"
+      "expression": "t.subject"
     },
     {
       "expression": "eventTime"

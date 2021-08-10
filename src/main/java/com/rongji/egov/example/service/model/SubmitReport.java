@@ -1,9 +1,9 @@
 package com.rongji.egov.example.service.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.rongji.egov.mybatis.base.annotation.Permission;
-import com.rongji.egov.mybatis.base.annotation.PermissionType;
-import com.rongji.egov.mybatis.base.annotation.TableName;
+import com.rongji.egov.mybatis.base.annotation.ACL;
+import com.rongji.egov.mybatis.base.annotation.Reader;
+import com.rongji.egov.mybatis.base.annotation.Table;
 import com.rongji.egov.mybatis.base.annotation.TypeHandler;
 import com.rongji.egov.mybatis.base.wrapper.JsonTypeHandler;
 import com.rongji.egov.utils.spring.validation.InsertValidate;
@@ -18,10 +18,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@TableName(value = "EGOV_DUTY_SUBMIT_REPORT", permission = true)
+@Table(value = "EGOV_DUTY_SUBMIT_REPORT", dac = true)
 public class SubmitReport extends AbstractWorkflowBase implements Serializable {
     @TypeHandler(value = JsonTypeHandler.class)
-    @Permission(prefix = "%\"", suffix = "\"%")
+    @Reader(prefix = "%\"", suffix = "\"%")
     private FlowReaderList todoReader;
     /**
      * ID
@@ -40,6 +40,8 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
     /**
      * 事发地点编码:["省编码","市编码","县编码"]
      */
+
+    @TypeHandler(value = JsonTypeHandler.class)
     private List<String> eventPlaceNo;
     /**
      * 涉及人数
@@ -105,10 +107,12 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
     /**
      * 主送领导，系统提供领导人列表供选择。
      */
+    @TypeHandler(value = JsonTypeHandler.class)
     private List<String> mainSend;
     /**
      * 抄送领导，系统提供领导人列表供选择。
      */
+    @TypeHandler(value = JsonTypeHandler.class)
     private List<String> copySend;
     /**
      * 值班员
@@ -118,7 +122,7 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
      * 值班员ID
      */
 
-    @Permission(value = {PermissionType.USER})
+    @Reader(value = {ACL.USER})
     private String draftUserNo;
     /**
      * 登记部门

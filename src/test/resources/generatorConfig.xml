@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry location="C:/Program Files/sql_driver/oscarJDBC-16.0.1.jar" />
+
+    <context defaultModelType="flat" id="mybatis-builder" targetRuntime="MyBatis3">
+        <property name="endingDelimiter" value="`"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="autoDelimitKeywords" value="true"/>
+
+        <jdbcConnection connectionURL="jdbc:oscar://192.168.210.134:2003/OSRDB" driverClass="com.oscar.Driver"
+                        password="FJSZF" userId="FJSZF"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+            <property name="useJSR310Types" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.rongji.egov.example.service.model" targetProject="${PROJECT_DIR}/src/main/java">
+            <property name="trimStrings" value="true"/>
+            <property name="enableSubPackages" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.rongji.egov.example.service.mapper" targetProject="${PROJECT_DIR}/src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="com.rongji.egov.example.service.mapper" targetProject="${PROJECT_DIR}/src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table domainObjectName="MyUmsUser" tableName="UMS_USER"
+               enableDeleteByExample="false" enableUpdateByExample="false"
+               enableCountByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"
+        >
+        </table>
+        <table domainObjectName="MyUserOrgRelate" tableName="UMS_USER_ORG_RELATE"
+               enableDeleteByExample="false" enableUpdateByExample="false"
+               enableCountByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"
+        >
+        </table>
+        <table domainObjectName="MyUmsOrg" tableName="UMS_ORG"
+               enableDeleteByExample="false" enableUpdateByExample="false"
+               enableCountByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"
+        >
+        </table>
+    </context>
+</generatorConfiguration>

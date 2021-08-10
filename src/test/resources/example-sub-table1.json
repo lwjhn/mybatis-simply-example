@@ -1,15 +1,8 @@
 {
   "fields": [{
-    "expression": "t.eventType",
-    "alias" : "et"
-  }, {
-    "expression": "t.count",
-    "alias" : "ct"
-  }, {
-    "expression": "t.involve",
-    "alias" : "involve"
+    "expression": "count(*)",
+    "alias" : "count"
   }],
-  "tableAlias": "t",
   "table": {
     "model":"com.rongji.egov.example.service.model.SubmitReport",
     "fields": [

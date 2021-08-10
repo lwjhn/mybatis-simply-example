@@ -1,6 +1,6 @@
 package com.rongji.egov.example.service;
 
-import com.rongji.egov.mybatis.base.annotation.TableName;
+import com.rongji.egov.mybatis.base.annotation.Table;
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
@@ -18,7 +18,7 @@ import java.util.Set;
 public class ClassPathModelScanner extends ClassPathBeanDefinitionScanner {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClassPathModelScanner.class);
 
-    private final Class<? extends Annotation> annotationClass = TableName.class;
+    private final Class<? extends Annotation> annotationClass = Table.class;
 
     public ClassPathModelScanner(BeanDefinitionRegistry registry) {
         super(registry, false);

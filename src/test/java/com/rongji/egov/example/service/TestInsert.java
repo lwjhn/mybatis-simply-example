@@ -3,6 +3,8 @@ package com.rongji.egov.example.service;
 import com.alibaba.fastjson.JSON;
 import com.rongji.egov.example.service.model.SubmitReport;
 import com.rongji.egov.mybatis.base.builder.SQLWrapper;
+import com.rongji.egov.mybatis.base.handler.UpdateHandler;
+import com.rongji.egov.mybatis.base.mapper.BaseMapper;
 import com.rongji.egov.mybatis.base.mapper.GeneralMapper;
 import com.rongji.egov.mybatis.base.plugin.Page;
 import com.rongji.egov.mybatis.base.querier.*;
@@ -26,7 +28,7 @@ import java.util.regex.Pattern;
 @RunWith(SpringRunner.class)
 public class TestInsert {
     @Resource
-    GeneralMapper generalMapper;
+    BaseMapper baseMapper;
 
     @Test
     public void test1() {
@@ -44,8 +46,7 @@ public class TestInsert {
         SQLInserter inserter = new SQLInserter(submitReport);
         System.out.println(JSON.toJSONString(inserter, true));
 
-        System.out.println(generalMapper.update(new UpdateQuerier(inserter)));
-
+        System.out.println(baseMapper.update((new UpdateQuerier()).setSqlHandler(inserter)));
     }
 
     @Test
@@ -67,7 +68,7 @@ public class TestInsert {
         }}));
         System.out.println(JSON.toJSONString(updater, true));
 
-        System.out.println(generalMapper.update(new UpdateQuerier(updater)));
+        System.out.println(baseMapper.update(new UpdateQuerier().setSqlHandler(updater)));
     }
 
     @Test
@@ -77,7 +78,7 @@ public class TestInsert {
             add(id);
         }}));
         System.out.println(JSON.toJSONString(handle, true));
-        System.out.println(generalMapper.update(new UpdateQuerier(handle)));
+        System.out.println(baseMapper.update(new UpdateQuerier().setSqlHandler(handle)));
     }
 
     @Test
@@ -93,24 +94,28 @@ public class TestInsert {
         }});
         selector.setFields(SQLWrapper.getSqlFields(SubmitReport.class, true));
 
-        Page<HashCamelMap> test = generalMapper.select(new SelectSimpleQuerier<Page<HashCamelMap>>(selector) {
-        });
+        Page<HashCamelMap> test = baseMapper.select(new SelectSimpleQuerier<Page<HashCamelMap>>() {
+        }.setSqlHandler(selector));
 
-        Page<HashCamelMap> reportHashCamelMap = generalMapper.select(new SelectPageQuerier<>(selector, HashCamelMap.class));
-
-        Page<SubmitReport> reportPage = generalMapper.select(new SelectPageQuerier<>(selector, SubmitReport.class));
+        Page<HashCamelMap> reportHashCamelMap = baseMapper.select(
+                new SelectPageQuerier<HashCamelMap>().setResultMap(HashCamelMap.class).setSqlHandler(selector));
 
         selector.setFields(SQLWrapper.getSqlFields(SubmitReport.class));
-        List<SubmitReport> reports = generalMapper.select(new SelectListQuerier<>(selector, SubmitReport.class));
+        Page<SubmitReport> reportPage = baseMapper.select(
+                new SelectPageQuerier<SubmitReport>()
+                        .setResultMap(SubmitReport.class).setSqlHandler(selector));
+
+        List<SubmitReport> reports = baseMapper.select(
+                new SelectListQuerier<SubmitReport>()
+                        .setResultMap(SubmitReport.class).setSqlHandler(selector));
         FlowReaderList flowReaderList = reports.get(0).getTodoReader();
 
         selector.setWhere(new SQLCriteria("id=?", new ArrayList<Object>() {{
             add("abcdefg");
         }}));
-        SubmitReport report = generalMapper.select(new SelectOneQuerier<>(
-                selector,
-                SubmitReport.class)
-        );
+        SubmitReport report = baseMapper.select(
+                new SelectOneQuerier<SubmitReport>()
+                        .setResultMap(SubmitReport.class).setSqlHandler(selector));
         System.out.println(JSON.toJSONString(test));
     }
 

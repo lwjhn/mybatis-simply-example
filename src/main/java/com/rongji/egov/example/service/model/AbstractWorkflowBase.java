@@ -1,9 +1,14 @@
 package com.rongji.egov.example.service.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.rongji.egov.mybatis.base.annotation.ACL;
+import com.rongji.egov.mybatis.base.annotation.Column;
+import com.rongji.egov.mybatis.base.annotation.Reader;
+import com.rongji.egov.mybatis.base.annotation.TypeHandler;
+import com.rongji.egov.mybatis.base.wrapper.JsonTypeHandler;
 import com.rongji.egov.workflow.FlowReaderList;
 
-import java.util.ArrayList;
+import java.util.Date;
 
 public class AbstractWorkflowBase {
     private String flowProcessId;
@@ -11,25 +16,36 @@ public class AbstractWorkflowBase {
     private String flowVersion;
     private String flowStatus;
 
-    //@Permission(prefix = "%\"", suffix = "\"%")
+    @TypeHandler(value = JsonTypeHandler.class)
+    //@Reader(prefix = "%\"", suffix = "\"%")
     private FlowReaderList todoReader;
 
-    //@Permission(prefix = "%\"", suffix = "\"%")
+    @TypeHandler(value = JsonTypeHandler.class)
+    //@Reader(prefix = "%\"", suffix = "\"%")
     private FlowReaderList atdoReader;
 
-    //@Permission(prefix = "%\"", suffix = "\"%")
+    @TypeHandler(value = JsonTypeHandler.class)
+    @Reader(prefix = "%\"", suffix = "\"%", value={ACL.USER})
     private FlowReaderList passReader;
+
+    @TypeHandler(value = JsonTypeHandler.class)
     private FlowReaderList referReader;
 
-    //@Permission(prefix = "%\"", suffix = "\"%")
+    @TypeHandler(value = JsonTypeHandler.class)
+    //@Reader(prefix = "%\"", suffix = "\"%")
     private FlowReaderList extensionReader;
     @JsonFormat(
             pattern = "yyyy-MM-dd HH:mm:ss"
     )
-//    private Date operatorTime;
-//    private String operatorUserNo;
-//    private String operatorUserName;
-//    private String operatorOrgNo;
+
+    @Column(exist = false)
+    private Date operatorTime;
+    @Column(exist = false)
+    private String operatorUserNo;
+    @Column(exist = false)
+    private String operatorUserName;
+    @Column(exist = false)
+    private String operatorOrgNo;
 
     public String getFlowProcessId() {
         return flowProcessId;
@@ -103,35 +119,35 @@ public class AbstractWorkflowBase {
         this.extensionReader = extensionReader;
     }
 
-    //    public Date getOperatorTime() {
-//        return operatorTime;
-//    }
-//
-//    public void setOperatorTime(Date operatorTime) {
-//        this.operatorTime = operatorTime;
-//    }
-//
-//    public String getOperatorUserNo() {
-//        return operatorUserNo;
-//    }
-//
-//    public void setOperatorUserNo(String operatorUserNo) {
-//        this.operatorUserNo = operatorUserNo;
-//    }
-//
-//    public String getOperatorUserName() {
-//        return operatorUserName;
-//    }
-//
-//    public void setOperatorUserName(String operatorUserName) {
-//        this.operatorUserName = operatorUserName;
-//    }
-//
-//    public String getOperatorOrgNo() {
-//        return operatorOrgNo;
-//    }
-//
-//    public void setOperatorOrgNo(String operatorOrgNo) {
-//        this.operatorOrgNo = operatorOrgNo;
-//    }
+    public Date getOperatorTime() {
+        return operatorTime;
+    }
+
+    public void setOperatorTime(Date operatorTime) {
+        this.operatorTime = operatorTime;
+    }
+
+    public String getOperatorUserNo() {
+        return operatorUserNo;
+    }
+
+    public void setOperatorUserNo(String operatorUserNo) {
+        this.operatorUserNo = operatorUserNo;
+    }
+
+    public String getOperatorUserName() {
+        return operatorUserName;
+    }
+
+    public void setOperatorUserName(String operatorUserName) {
+        this.operatorUserName = operatorUserName;
+    }
+
+    public String getOperatorOrgNo() {
+        return operatorOrgNo;
+    }
+
+    public void setOperatorOrgNo(String operatorOrgNo) {
+        this.operatorOrgNo = operatorOrgNo;
+    }
 }

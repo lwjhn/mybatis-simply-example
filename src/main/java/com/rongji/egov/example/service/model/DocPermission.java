@@ -1,12 +1,12 @@
 package com.rongji.egov.example.service.model;
 
-import com.rongji.egov.mybatis.web.permission.IDocPermission;
+import com.rongji.egov.mybatis.dac.handler.Acl;
 import com.rongji.egov.user.model.RmsRole;
 
 import java.io.Serializable;
 import java.util.Collection;
 
-public class DocPermission implements IDocPermission, Serializable {
+public class DocPermission implements Acl, Serializable {
     private String userNo;
     private String orgNo;
     private Collection<String> orgNoList;

@@ -2,7 +2,7 @@ package com.rongji.egov.example.service.model;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.rongji.egov.mybatis.base.annotation.TableName;
+import com.rongji.egov.mybatis.base.annotation.Table;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,7 +18,7 @@ import java.util.*;
  * @author chenwenkang 上个zhangshiyi
  * @date 2018-9-26
  **/
-@TableName("EGOV_DUTY_BBS")
+@Table("EGOV_DUTY_BBS")
 public class Bbs implements Serializable {
   private static final long serialVersionUID = 1L;
   private String id;
