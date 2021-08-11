@@ -5,148 +5,183 @@ import com.rongji.egov.mybatis.base.annotation.ACL;
 import com.rongji.egov.mybatis.base.annotation.Column;
 import com.rongji.egov.mybatis.base.annotation.Reader;
 import com.rongji.egov.mybatis.base.annotation.TypeHandler;
-import com.rongji.egov.mybatis.base.wrapper.JsonTypeHandler;
+import com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler;
 import com.rongji.egov.workflow.FlowReaderList;
+import com.rongji.egov.workflow.client.model.AbstractWorkflowBase;
 
 import java.util.Date;
 
-public class AbstractWorkflowBase {
-    private String flowProcessId;
+public abstract class WorkflowBase extends AbstractWorkflowBase {
+    /*private String flowProcessId;
     private String flowLabel;
     private String flowVersion;
-    private String flowStatus;
+    private String flowStatus;*/
 
+    /**
+     * @deprecated
+     */
+    @Deprecated
+    @Column(exist = false)
+    private String flowDoneUser;
+
+    /**
+     * 待办用户
+     */
     @TypeHandler(value = JsonTypeHandler.class)
-    //@Reader(prefix = "%\"", suffix = "\"%")
     private FlowReaderList todoReader;
 
+    /**
+     * 在办用户
+     */
     @TypeHandler(value = JsonTypeHandler.class)
-    //@Reader(prefix = "%\"", suffix = "\"%")
     private FlowReaderList atdoReader;
 
+    /**
+     * 经办用户
+     */
+    @Reader(value = ACL.USER, prefix = "%\":\"", suffix = "\"%")
     @TypeHandler(value = JsonTypeHandler.class)
-    @Reader(prefix = "%\"", suffix = "\"%", value={ACL.USER})
     private FlowReaderList passReader;
 
+    /**
+     * 传阅用户、知会用户等
+     */
+    @Reader(value = ACL.USER, prefix = "%\":\"", suffix = "\"%")
     @TypeHandler(value = JsonTypeHandler.class)
     private FlowReaderList referReader;
 
+    /**
+     * 扩展。可添加各类型角色等
+     * 如特定岗位、群组等（一般使用群组）
+     */
+    @Reader(prefix = "%\":\"", suffix = "\"%")
     @TypeHandler(value = JsonTypeHandler.class)
-    //@Reader(prefix = "%\"", suffix = "\"%")
     private FlowReaderList extensionReader;
+
+    @Column(exist = false)
+    private String stateHandleInfo;
     @JsonFormat(
             pattern = "yyyy-MM-dd HH:mm:ss"
     )
 
     @Column(exist = false)
     private Date operatorTime;
+
     @Column(exist = false)
     private String operatorUserNo;
+
     @Column(exist = false)
     private String operatorUserName;
+
     @Column(exist = false)
     private String operatorOrgNo;
 
-    public String getFlowProcessId() {
-        return flowProcessId;
+    @Override
+    public String getFlowDoneUser() {
+        return flowDoneUser;
     }
 
-    public void setFlowProcessId(String flowProcessId) {
-        this.flowProcessId = flowProcessId;
+    @Override
+    public void setFlowDoneUser(String flowDoneUser) {
+        this.flowDoneUser = flowDoneUser;
     }
 
-    public String getFlowLabel() {
-        return flowLabel;
-    }
-
-    public void setFlowLabel(String flowLabel) {
-        this.flowLabel = flowLabel;
-    }
-
-    public String getFlowVersion() {
-        return flowVersion;
-    }
-
-    public void setFlowVersion(String flowVersion) {
-        this.flowVersion = flowVersion;
-    }
-
-    public String getFlowStatus() {
-        return flowStatus;
-    }
-
-    public void setFlowStatus(String flowStatus) {
-        this.flowStatus = flowStatus;
-    }
-
+    @Override
     public FlowReaderList getTodoReader() {
         return todoReader;
     }
 
+    @Override
     public void setTodoReader(FlowReaderList todoReader) {
         this.todoReader = todoReader;
     }
 
+    @Override
     public FlowReaderList getAtdoReader() {
         return atdoReader;
     }
 
+    @Override
     public void setAtdoReader(FlowReaderList atdoReader) {
         this.atdoReader = atdoReader;
     }
 
+    @Override
     public FlowReaderList getPassReader() {
         return passReader;
     }
 
+    @Override
     public void setPassReader(FlowReaderList passReader) {
         this.passReader = passReader;
     }
 
+    @Override
     public FlowReaderList getReferReader() {
         return referReader;
     }
 
+    @Override
     public void setReferReader(FlowReaderList referReader) {
         this.referReader = referReader;
     }
 
+    @Override
     public FlowReaderList getExtensionReader() {
         return extensionReader;
     }
 
+    @Override
     public void setExtensionReader(FlowReaderList extensionReader) {
         this.extensionReader = extensionReader;
     }
 
+    @Override
+    public String getStateHandleInfo() {
+        return stateHandleInfo;
+    }
+
+    @Override
+    public void setStateHandleInfo(String stateHandleInfo) {
+        this.stateHandleInfo = stateHandleInfo;
+    }
+
+    @Override
     public Date getOperatorTime() {
         return operatorTime;
     }
 
+    @Override
     public void setOperatorTime(Date operatorTime) {
         this.operatorTime = operatorTime;
     }
 
+    @Override
     public String getOperatorUserNo() {
         return operatorUserNo;
     }
 
+    @Override
     public void setOperatorUserNo(String operatorUserNo) {
         this.operatorUserNo = operatorUserNo;
     }
 
+    @Override
     public String getOperatorUserName() {
         return operatorUserName;
     }
 
+    @Override
     public void setOperatorUserName(String operatorUserName) {
         this.operatorUserName = operatorUserName;
     }
 
+    @Override
     public String getOperatorOrgNo() {
         return operatorOrgNo;
     }
 
+    @Override
     public void setOperatorOrgNo(String operatorOrgNo) {
         this.operatorOrgNo = operatorOrgNo;
     }

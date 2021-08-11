@@ -29,7 +29,6 @@ public class TestJoin {
     BaseMapper baseMapper;
 
     /*
-(
     SELECT SubmitReport.SUBJECT AS Subject, SubmitReport.EVENT_TYPE AS eventType, SubmitReport.INVOLVE_P_NUMBER AS involvePNumber,
             MyUmsUser.SHORT_NAME AS shortName, MyUmsUser.EMAIL AS email,
             MyUserOrgRelate.USER_NO AS userNo, MyUserOrgRelate.ORG_NO AS orgNo,
@@ -41,7 +40,6 @@ public class TestJoin {
         ON MyUmsUser.USER_NO = SubmitReport.DRAFT_USER_NO
         LEFT JOIN UMS_ORG AS MyUmsOrg ON MyUmsOrg.ORG_NO = MyUserOrgRelate.ORG_NO
     LIMIT 0, 5
-)
     */
     @Test
     public void testJoin() {

@@ -1,28 +1,25 @@
 package com.rongji.egov.example.service.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.rongji.egov.mybatis.base.annotation.ACL;
-import com.rongji.egov.mybatis.base.annotation.Reader;
-import com.rongji.egov.mybatis.base.annotation.Table;
-import com.rongji.egov.mybatis.base.annotation.TypeHandler;
-import com.rongji.egov.mybatis.base.wrapper.JsonTypeHandler;
+import com.rongji.egov.mybatis.base.annotation.*;
+import com.rongji.egov.utils.mybatis.typehandler.JsonTypeHandler;
 import com.rongji.egov.utils.spring.validation.InsertValidate;
 import com.rongji.egov.utils.spring.validation.UpdateValidate;
-import com.rongji.egov.workflow.FlowReaderList;
+import com.rongji.egov.workflow.consts.FlowStatusConst;
+import com.rongji.egov.workflow.consts.ModuleFiledConst;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-@Table(value = "EGOV_DUTY_SUBMIT_REPORT", dac = true)
-public class SubmitReport extends AbstractWorkflowBase implements Serializable {
-    @TypeHandler(value = JsonTypeHandler.class)
-    @Reader(prefix = "%\"", suffix = "\"%")
-    private FlowReaderList todoReader;
+@Table(value = "EGOV_DUTY_SUBMIT_REPORT", dac = true, mapping = Mapping.UNDERSCORE)
+public class SubmitReport extends WorkflowBase implements Serializable {
     /**
      * ID
      */
@@ -40,7 +37,6 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
     /**
      * 事发地点编码:["省编码","市编码","县编码"]
      */
-
     @TypeHandler(value = JsonTypeHandler.class)
     private List<String> eventPlaceNo;
     /**
@@ -121,8 +117,7 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
     /**
      * 值班员ID
      */
-
-    @Reader(value = {ACL.USER})
+    @Reader(value = ACL.USER)
     private String draftUserNo;
     /**
      * 登记部门
@@ -131,6 +126,7 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
     /**
      * 登记部门ID
      */
+
     private String draftDeptNo;
     /**
      * 登记单位
@@ -221,6 +217,10 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSubject() {
+        return subject;
     }
 
     public void setSubject(String subject) {
@@ -555,6 +555,119 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
         this.outIntranet = outIntranet;
     }
 
+    public HashMap<String, Object> toMap() {
+        HashMap<String, Object> map = new HashMap<>(16);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        map.put(ModuleFiledConst.DOC_ID, this.id);
+        map.put(ModuleFiledConst.SUBJECT, this.subject);
+        map.put(ModuleFiledConst.DOC_SEQUENCE, this.docSequence);
+        map.put(ModuleFiledConst.TEMPLATE_SYSTEM_NO, this.systemNo);
+        map.put(ModuleFiledConst.DOC_DATE, dateFormat.format(this.createTime));
+        map.put(ModuleFiledConst.BUSINESS_NO, "DUTY");
+        map.put(ModuleFiledConst.BUSINESS_NAME, "值班管理");
+        map.put(ModuleFiledConst.BUSINESS_CATE, this.docCate);
+        map.put(ModuleFiledConst.REG_ORG_NAME, this.draftDeptName);
+        map.put(ModuleFiledConst.SECRET, this.secLevel);
+        map.put(ModuleFiledConst.PRIORITY, "无");
+        return map;
+    }
+
+    public HashMap<String, Object> toSolrMap() {
+        HashMap<String, Object> map = new HashMap<>(15);
+        Calendar c = null;
+        map.put("S_module", "DUTY");
+        map.put("S_moduleDes", "值班管理");
+        map.put("S_rjSearchUrl", "");
+        map.put("S_businessNo", "DUTY");
+        map.put("S_businessName", "值班管理");
+        if (StringUtils.isNotBlank(this.getFlowStatus())) {
+            map.put("S_flowStatus", this.getFlowStatus());
+            if (!FlowStatusConst.REVOKE.equals(this.getFlowStatus())) {
+                List<String> readers = this.getReaders();
+                if (readers != null && readers.size() > 0) {
+                    map.put("R_readers", readers.toArray(new String[readers.size()]));
+                }
+            } else {
+                map.put("R_readers", new ArrayList<String>());
+            }
+        }
+        if (this.createTime != null) {
+            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String dateStr = sdf.format(this.createTime);
+            map.put("S_createTime", dateStr);
+            map.put("T_createTime", this.createTime);
+            c = Calendar.getInstance();
+            c.setTime(this.createTime);
+            map.put("I_createYear", c.get(Calendar.YEAR));
+            map.put("I_createMonth", c.get(Calendar.MONTH) + 1);
+            map.put("I_createDay", c.get(Calendar.DAY_OF_MONTH));
+        }
+        if (this.eventTime != null) {
+            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateStr = sdf.format(this.eventTime);
+            map.put("S_eventTime", dateStr);
+            map.put("T_eventTime", this.eventTime);
+            c = Calendar.getInstance();
+            c.setTime(this.eventTime);
+            map.put("I_eventYear", c.get(Calendar.YEAR));
+            map.put("I_eventMonth", c.get(Calendar.MONTH) + 1);
+            map.put("I_eventDay", c.get(Calendar.DAY_OF_MONTH));
+        }
+        if (this.receiveTime != null) {
+            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateStr = sdf.format(this.receiveTime);
+            map.put("S_receiveTime", dateStr);
+            map.put("T_receiveTime", this.receiveTime);
+            c = Calendar.getInstance();
+            c.setTime(this.receiveTime);
+            map.put("I_receiveYear", c.get(Calendar.YEAR));
+            map.put("I_receiveMonth", c.get(Calendar.MONTH) + 1);
+            map.put("I_receiveDay", c.get(Calendar.DAY_OF_MONTH));
+        }
+        if (StringUtils.isNotBlank(this.id)) {
+            map.put("id", this.id);
+        }
+        if (StringUtils.isNotBlank(this.subject)) {
+            map.put("C_subject", this.subject);
+            map.put("S_subject2", this.subject);
+        }
+        if (StringUtils.isNotBlank(this.systemNo)) {
+            map.put("S_systemNo", this.systemNo);
+        }
+        if (StringUtils.isNotBlank(this.draftUserName)) {
+            map.put("S_draftUserName", this.draftUserName);
+        }
+        if (StringUtils.isNotBlank(this.draftUserNo)) {
+            map.put("S_draftUserNo", this.draftUserNo);
+        }
+        if (StringUtils.isNotBlank(this.draftDeptName)) {
+            map.put("S_draftDeptName", this.draftDeptName);
+        }
+        if (StringUtils.isNotBlank(this.draftDeptNo)) {
+            map.put("S_draftDeptNo", this.draftDeptNo);
+        }
+        if (StringUtils.isNotBlank(this.draftDeptName)) {
+            map.put("S_draftDeptName", this.draftDeptName);
+        }
+        if (StringUtils.isNotBlank(this.docCate)) {
+            map.put("S_docCate", this.docCate);
+        }
+        if (StringUtils.isNotBlank(this.docSequence)) {
+            map.put("S_docSequence", this.docSequence);
+        }
+        if (StringUtils.isNotBlank(this.eventPlace)) {
+            map.put("S_eventPlace", this.eventPlace);
+        }
+        if (StringUtils.isNotBlank(this.secLevel)) {
+            map.put("S_secLevel", this.secLevel);
+        }
+        if (StringUtils.isNotBlank(this.reportUnitName)) {
+            map.put("S_reportUnitName", this.reportUnitName);
+        }
+        map.put("S_opinionNum", this.opinionNum + "");
+        return map;
+    }
+
     public String getSubEventType() {
         return subEventType;
     }
@@ -569,17 +682,4 @@ public class SubmitReport extends AbstractWorkflowBase implements Serializable {
         return object;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    @Override
-    public FlowReaderList getTodoReader() {
-        return todoReader;
-    }
-
-    @Override
-    public void setTodoReader(FlowReaderList todoReader) {
-        this.todoReader = todoReader;
-    }
 }

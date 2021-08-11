@@ -2,14 +2,18 @@ package com.rongji.egov.example.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.rongji.egov.example.service.model.DutyFastReport;
+import com.rongji.egov.example.service.model.DutyMsg;
 import com.rongji.egov.example.service.model.SubmitReport;
+import com.rongji.egov.mybatis.base.builder.SQLWrapper;
 import com.rongji.egov.mybatis.base.builder.assistant.Builder;
 import com.rongji.egov.mybatis.base.builder.assistant.LambdaHelper;
 import com.rongji.egov.mybatis.base.mapper.BaseMapper;
 import com.rongji.egov.mybatis.base.pattern.SQLFactory;
-import com.rongji.egov.mybatis.base.pattern.verifier.SQLVerifier;
 import com.rongji.egov.mybatis.base.plugin.Page;
 import com.rongji.egov.mybatis.base.querier.SelectPageQuerier;
+import com.rongji.egov.mybatis.base.querier.SelectSimpleQuerier;
+import com.rongji.egov.mybatis.base.sql.SQLCriteria;
 import com.rongji.egov.mybatis.base.sql.SQLSelector;
 import com.rongji.egov.mybatis.base.utils.AutoCloseableBase;
 import org.junit.Test;
@@ -19,9 +23,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -66,26 +69,37 @@ public class TestGeneralMapper {
         System.out.println(LambdaHelper.fieldName(SubmitReport::getSubject));
     }
 
-    private static final Pattern PATTERN_WORD = Pattern.compile("\\b[.\\w]+\\b");
-
     @Test
-    public void testGeneric() throws NoSuchFieldException, IllegalAccessException {
-        boolean t = ((Class)Integer.class.getField("TYPE").get(null)).isPrimitive();
-        t=int.class.isPrimitive();
-        t=SubmitReport.class.isPrimitive();
-        Object m = Integer.class.getField("TYPE").get(null);
-        m = SubmitReport.class.getField("TYPE").get(null);
-        System.out.println(m instanceof Class);
+    public void testGeneric() {
+        SQLCriteria criteria = new SQLCriteria("NOT(passReader IS NULL)");
+        List<Integer> limit = new ArrayList<Integer>() {{
+            add(0);
+            add(6);
+        }};
 
-        //
-        System.out.println(SubmitReport.class.hashCode());
+        Page<?> result = baseMapper.select(new SelectSimpleQuerier<Page<SubmitReport>>() {
+        }.setSqlHandler(Builder.register(SQLSelector::new).set(SQLSelector::setModel, SubmitReport.class)
+                .set(SQLSelector::setFields,
+                        SQLWrapper.getSqlFields(SubmitReport.class))
+                .set(SQLSelector::setWhere, criteria)
+                .set(SQLSelector::setLimit, limit).build()));
 
-        SQLVerifier.Replicator replicator = s -> {
-            System.out.println(s);
-            return s;
-        };
-        String expression="t..k=9k and .test=b.test or DRAFT_USER_NO = B.USER_NO and t1.id=t2.id ";
-        expression = SQLVerifier.matchSqlWord(expression, replicator);
-        System.out.println(expression);
+        System.out.println(JSON.toJSONString(result));
+
+        result = baseMapper.select(new SelectSimpleQuerier<Page<DutyFastReport>>() {
+        }.setSqlHandler(Builder.register(SQLSelector::new).set(SQLSelector::setModel, DutyFastReport.class)
+                .set(SQLSelector::setFields,
+                        SQLWrapper.getSqlFields(DutyFastReport.class))
+                .set(SQLSelector::setWhere, criteria)
+                .set(SQLSelector::setLimit, limit).build()));
+        System.out.println(JSON.toJSONString(result));
+
+        result = baseMapper.select(new SelectSimpleQuerier<Page<DutyMsg>>() {
+        }.setSqlHandler(Builder.register(SQLSelector::new).set(SQLSelector::setModel, DutyMsg.class)
+                .set(SQLSelector::setFields,
+                        SQLWrapper.getSqlFields(DutyMsg.class))
+                .set(SQLSelector::setWhere, criteria)
+                .set(SQLSelector::setLimit, limit).build()));
+        System.out.println(JSON.toJSONString(result));
     }
 }

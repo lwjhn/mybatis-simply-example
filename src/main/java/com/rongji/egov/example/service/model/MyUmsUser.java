@@ -1,13 +1,13 @@
 package com.rongji.egov.example.service.model;
 
 import com.rongji.egov.mybatis.base.annotation.Column;
-import com.rongji.egov.mybatis.base.annotation.MappingType;
+import com.rongji.egov.mybatis.base.annotation.Mapping;
 import com.rongji.egov.mybatis.base.annotation.Table;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Table(value = "UMS_USER", mapping = MappingType.UNDERSCORE)
+@Table(value = "UMS_USER", mapping = Mapping.UNDERSCORE)
 public class MyUmsUser {
 
     private String id;

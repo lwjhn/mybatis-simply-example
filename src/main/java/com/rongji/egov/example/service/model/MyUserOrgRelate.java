@@ -1,11 +1,11 @@
 package com.rongji.egov.example.service.model;
 
-import com.rongji.egov.mybatis.base.annotation.MappingType;
+import com.rongji.egov.mybatis.base.annotation.Mapping;
 import com.rongji.egov.mybatis.base.annotation.Table;
 
 import java.util.Date;
 
-@Table(value = "UMS_USER_ORG_RELATE", mapping = MappingType.UNDERSCORE)
+@Table(value = "UMS_USER_ORG_RELATE", mapping = Mapping.UNDERSCORE)
 public class MyUserOrgRelate {
 
     private String id;
