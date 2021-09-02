@@ -114,10 +114,11 @@ public class SubmitReport extends WorkflowBase implements Serializable {
      * 值班员
      */
     private String draftUserName;
+
     /**
      * 值班员ID
      */
-    @Reader(value = ACL.USER)
+    @Editor(value = ACL.USER)
     private String draftUserNo;
     /**
      * 登记部门

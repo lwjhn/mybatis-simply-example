@@ -1,13 +1,22 @@
 package com.rongji.egov.example.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.rongji.egov.example.service.model.SubmitReport;
+import com.rongji.egov.mybatis.base.annotation.Editor;
+import com.rongji.egov.mybatis.base.annotation.Reader;
+import com.rongji.egov.mybatis.base.builder.assistant.LambdaHelper;
 import com.rongji.egov.mybatis.base.mapper.BaseMapper;
+import com.rongji.egov.mybatis.base.pattern.SQLFactory;
 import com.rongji.egov.mybatis.base.plugin.Page;
+import com.rongji.egov.mybatis.base.querier.SelectListQuerier;
 import com.rongji.egov.mybatis.base.querier.SelectPageQuerier;
 import com.rongji.egov.mybatis.base.sql.SQLSelector;
+import com.rongji.egov.mybatis.base.utils.AutoCloseableBase;
 import com.rongji.egov.mybatis.base.utils.SpringContextUtil;
+import com.rongji.egov.mybatis.base.wrapper.HashCamelMap;
 import com.rongji.egov.mybatis.dac.handler.Acl;
+import com.rongji.egov.mybatis.dac.querier.DacSelectListQuerier;
 import com.rongji.egov.mybatis.dac.querier.DacSelectPageQuerier;
 import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.session.Configuration;
@@ -15,19 +24,76 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestACL {
     @Resource
     BaseMapper baseMapper;
+
+    @Test
+    public void testEditor() throws NoSuchFieldException {
+        SubmitReport report = new SubmitReport();
+        report.setDraftUserNo("U000001");
+        Field field = report.getClass().getDeclaredField(LambdaHelper.fieldName(SubmitReport::getDraftUserNo));
+        Reader reader = AnnotatedElementUtils.findMergedAnnotation(Editor.class, Reader.class);
+        Editor editor = AnnotatedElementUtils.findMergedAnnotation(Reader.class, Editor.class);
+        assert reader != null;
+        System.out.println(Arrays.toString(reader.value()));
+        System.out.println(Arrays.toString(editor.value()));
+    }
+
+    @Test
+    public void testJoin() {
+        InputStream is = null;
+        try {
+            is = TestGeneralMapper.class.getClassLoader().getResourceAsStream("example-join-2.json");
+            assert is != null;
+            SQLSelector selector = JSONObject.parseObject(is, SQLSelector.class);
+            System.out.println(JSON.toJSONString(selector));
+            System.out.println(SQLFactory.generate(selector, (o, o1) -> "?"));
+
+            Page<HashCamelMap> result = baseMapper.select(
+                    new DacSelectPageQuerier<HashCamelMap>().setAcl(getAcl()).setResultMap(HashCamelMap.class).setSqlHandler(selector)
+            );
+
+            System.out.println(JSON.toJSONString(result, true));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            AutoCloseableBase.close(is);
+        }
+    }
+
+    @Test
+    public void test7() {
+        InputStream is = null;
+        try {
+            is = TestSubtable.class.getClassLoader().getResourceAsStream("example-sub-table.json");
+            assert is != null;
+            SQLSelector selector = JSONObject.parseObject(is, SQLSelector.class);
+            List<HashCamelMap> result = baseMapper.select(
+                    new DacSelectListQuerier<HashCamelMap>().setAcl(getAcl()).setResultMap(HashCamelMap.class).setSqlHandler(selector)
+            );
+            System.out.println(JSON.toJSONString(result));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            AutoCloseableBase.close(is);
+        }
+    }
 
     @Test
     public void testQueryFormList() {
@@ -105,6 +171,5 @@ public class TestACL {
             resultMap = configuration.getResultMap(key);
             System.out.println(resultMap.getType() + "-->" + resultMap.getId());
         }
-
     }
 }

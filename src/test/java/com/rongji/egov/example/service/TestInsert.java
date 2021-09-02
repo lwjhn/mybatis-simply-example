@@ -51,7 +51,7 @@ public class TestInsert {
 
     @Test
     public void test4() {
-        String id = "T3-1628649863157";
+        String id = "T3-1628779339612";
         SubmitReport submitReport = new SubmitReport();
         submitReport.setId(id);
         submitReport.setCreateTime(new Date());
@@ -73,10 +73,8 @@ public class TestInsert {
 
     @Test
     public void testDelete() {
-        String id = "T3-%";
-        SQLDeleter handle = new SQLDeleter(SubmitReport.class, new SQLCriteria("id LIKE ?", new ArrayList<Object>() {{
-            add(id);
-        }}));
+        String id = "T3-1628779339612";
+        SQLDeleter handle = new SQLDeleter(SubmitReport.class, new SQLCriteria("id LIKE ?", id));
         System.out.println(JSON.toJSONString(handle, true));
         System.out.println(baseMapper.update(new UpdateQuerier().setSqlHandler(handle)));
     }
@@ -84,14 +82,8 @@ public class TestInsert {
     @Test
     public void test3() {
         SQLSelector selector = new SQLSelector(
-                new SQLCriteria("subject LIKE ?",
-                        new ArrayList<Object>() {{
-                            add("%测试%");
-                        }}), SubmitReport.class);
-        selector.setLimit(new ArrayList<Integer>() {{
-            add(0);
-            add(6);
-        }});
+                new SQLCriteria("subject LIKE ?", "%测试%"), SubmitReport.class);
+        selector.setLimit(0, 6);
         selector.setFields(SQLWrapper.getSqlFields(SubmitReport.class, true));
 
         Page<HashCamelMap> test = baseMapper.select(new SelectSimpleQuerier<Page<HashCamelMap>>() {
@@ -110,9 +102,7 @@ public class TestInsert {
                         .setResultMap(SubmitReport.class).setSqlHandler(selector));
         FlowReaderList flowReaderList = reports.get(0).getTodoReader();
 
-        selector.setWhere(new SQLCriteria("id=?", new ArrayList<Object>() {{
-            add("abcdefg");
-        }}));
+        selector.setLimit(0, 1);
         SubmitReport report = baseMapper.select(
                 new SelectOneQuerier<SubmitReport>()
                         .setResultMap(SubmitReport.class).setSqlHandler(selector));

@@ -1,0 +1,70 @@
+{
+  "model": "com.rongji.egov.example.service.model.MyUmsUser",
+  "tableAlias": "MyUmsUser",
+  "join": [
+    {
+      "model": "com.rongji.egov.example.service.model.SubmitReport",
+      "tableAlias": "SubmitReport",
+      "on": {
+        "expression": "MyUmsUser.userNo = SubmitReport.draftUserNo"
+      }
+    },
+    {
+      "model": "com.rongji.egov.example.service.model.MyUserOrgRelate",
+      "tableAlias": "MyUserOrgRelate",
+      "on": {
+        "expression": "MyUserOrgRelate.userNo=MyUmsUser.userNo"
+      }
+    },
+    {
+      "type": "LEFT",
+      "model": "com.rongji.egov.example.service.model.MyUmsOrg",
+      "tableAlias": "MyUmsOrg",
+      "on": {
+        "expression": "MyUmsOrg.orgNo = MyUserOrgRelate.orgNo"
+      }
+    }
+  ],
+  "fields": [
+    {
+      "expression": "SubmitReport.subject",
+      "alias": "Subject"
+    },
+    {
+      "expression": "SubmitReport.eventType",
+      "alias": "eventType"
+    },
+    {
+      "expression": "SubmitReport.involvePNumber",
+      "alias": "involvePNumber"
+    },
+    {
+      "expression": "MyUmsUser.shortName",
+      "alias": "shortName"
+    },
+    {
+      "expression": "MyUmsUser.email",
+      "alias": "email"
+    },
+    {
+      "expression": "MyUserOrgRelate.userNo",
+      "alias": "userNo"
+    },
+    {
+      "expression": "MyUserOrgRelate.orgNo",
+      "alias": "orgNo"
+    },
+    {
+      "expression": "MyUmsOrg.orgNameList",
+      "alias": "orgNameList"
+    },
+    {
+      "expression": "MyUmsOrg.orgNoList",
+      "alias": "orgNoList"
+    }
+  ],
+  "limit": [
+    0,
+    5
+  ]
+}
