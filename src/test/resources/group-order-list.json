@@ -1,0 +1,86 @@
+{
+  "fields": [
+    {
+      "expression": "subscription.id",
+      "alias": "id"
+    },
+    {
+      "expression": "subscription.subscribeYear",
+      "alias": "subscribeYear"
+    },
+    {
+      "expression": "subscription.subscribeOrgNo",
+      "alias": "subscribeOrgNo"
+    },
+    {
+      "expression": "subscription.subscribeTime",
+      "alias": "subscribeTime"
+    },
+    {
+      "expression": "subscribeOrg",
+      "alias": "subscribeOrg"
+    },
+    {
+      "expression": "group_concat(paper.publication)",
+      "alias": "publication"
+    },
+    {
+      "expression": "subscribeUser",
+      "alias": "_DEF_COL_6"
+    },
+    {
+      "expression": "sum(order.subscribeCopies)",
+      "alias": "_DEF_COL_7"
+    },
+    {
+      "expression": "sum(paper.yearPrice * order.subscribeCopies)",
+      "alias": "_DEF_COL_8"
+    },
+    {
+      "expression": "CASE subscription.govExpense WHEN TRUE THEN ? ELSE ? END",
+      "alias": "_DEF_COL_9",
+      "value": [
+        "公费",
+        "自费"
+      ]
+    },
+    {
+      "expression": "verifyStatus",
+      "alias": "verify_status"
+    }
+  ],
+  "limit": [
+    0,
+    15
+  ],
+  "tableAlias": "subscription",
+  "model": "com.rongji.egov.example.service.model.Subscription",
+  "join": [
+    {
+      "type": "LEFT",
+      "model": "com.rongji.egov.example.service.model.Order",
+      "tableAlias": "order",
+      "on": {
+        "expression": "subscription.id = order.pid"
+      },
+      "join": [
+        {
+          "type": "LEFT",
+          "model": "com.rongji.egov.example.service.model.Paper",
+          "tableAlias": "paper",
+          "on": {
+            "expression": "order.paperId = paper.id"
+          }
+        }
+      ]
+    }
+  ],
+  "where": {
+    "expression": "(verifyStatus = ?)",
+    "value": [
+      "1"
+    ]
+  },
+  "group": ["subscription.id","subscription.subscribe_Year","subscription.subscribe_Org_No","subscription.subscribe_Time","subscribe_Org","subscribe_User","subscription.gov_Expense","verify_Status"],
+  "order": ["subscription.subscribe_Org DESC","subscription.subscribe_Time ASC","subscription.subscribe_User ASC"]
+}

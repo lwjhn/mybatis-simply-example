@@ -36,10 +36,10 @@ public class TestGeneralMapper {
     public void testGeneralMapper() {
         InputStream is = null;
         try {
-            is = TestGeneralMapper.class.getClassLoader().getResourceAsStream("select-example-acl.json");   //("example-full-group.json");   //
+            //group-order-expression.json   group-order-string.json   group-order-list.json
+            is = TestGeneralMapper.class.getClassLoader().getResourceAsStream("group-order-list.json");
             assert is != null;
             SQLSelector selector = JSONObject.parseObject(is, SQLSelector.class);
-            selector.setModel(SubmitReport.class);
             System.out.println(JSON.toJSONString(selector));
             System.out.println(SQLFactory.generate(selector, (o, o1) -> "?"));
 
