@@ -3,6 +3,8 @@ package com.rongji.egov.example.service;
 import com.alibaba.fastjson.JSON;
 import com.rongji.egov.example.service.model.SubmitReport;
 import com.rongji.egov.mybatis.base.builder.SQLWrapper;
+import com.rongji.egov.mybatis.base.builder.assistant.Builder;
+import com.rongji.egov.mybatis.base.builder.assistant.LambdaHelper;
 import com.rongji.egov.mybatis.base.handler.UpdateHandler;
 import com.rongji.egov.mybatis.base.mapper.BaseMapper;
 import com.rongji.egov.mybatis.base.mapper.GeneralMapper;
@@ -19,9 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @SpringBootTest
@@ -32,38 +32,39 @@ public class TestInsert {
 
     @Test
     public void test1() {
-        SubmitReport submitReport = new SubmitReport();
-        submitReport.setId("T3-" + (new Date()).getTime());
-        submitReport.setCreateTime(new Date());
-        submitReport.setEventTime(new Date());
-        submitReport.setDeathPNumber(1);
-        submitReport.setMissingPNumber(3);
-        submitReport.setSubject("测试-common-insert-" + new Date().getTime());
-        submitReport.setEventType("案件");
-        submitReport.setSubEventType("刑事案件");
-        submitReport.setDraftUserName("系统管理员");
-        submitReport.setDraftDeptNo("U000001");
-        SQLInserter inserter = new SQLInserter(submitReport);
-        System.out.println(JSON.toJSONString(inserter, true));
+        Map<String, Object> values = new HashMap<String, Object>(){{
+            put(LambdaHelper.fieldName(SubmitReport::getId), "T3-" + (new Date()).getTime());
+            put(LambdaHelper.fieldName(SubmitReport::getCreateTime), new Date());
+            put(LambdaHelper.fieldName(SubmitReport::getEventTime), new Date());
+            put(LambdaHelper.fieldName(SubmitReport::getDeathPNumber), 1);
+            put(LambdaHelper.fieldName(SubmitReport::getMissingPNumber), 3);
+            put(LambdaHelper.fieldName(SubmitReport::getSubject), Builder.register(SQLCriteria::new)
+                    .set(SQLCriteria::setExpression, "? + NEWID()")
+                    .set(SQLCriteria::setValue, new ArrayList<Object>(){{
+                        add("测试-insert-");
+                    }}).build());
+            put(LambdaHelper.fieldName(SubmitReport::getEventType), "案件");
+            put(LambdaHelper.fieldName(SubmitReport::getSubEventType), "刑事案件");
+            put(LambdaHelper.fieldName(SubmitReport::getDraftDeptNo), "U000001");
+        }};
 
+        SQLInserter inserter = new SQLInserter(SubmitReport.class, values);
+        System.out.println(JSON.toJSONString(inserter, true));
         System.out.println(baseMapper.update((new UpdateQuerier()).setSqlHandler(inserter)));
     }
 
     @Test
     public void test4() {
-        String id = "T3-1628779339612";
-        SubmitReport submitReport = new SubmitReport();
-        submitReport.setId(id);
-        submitReport.setCreateTime(new Date());
-        submitReport.setEventTime(new Date());
-        submitReport.setDeathPNumber(1);
-        submitReport.setMissingPNumber(3);
-        submitReport.setSubject("修改-2-测试-common-update-" + new Date().getTime());
-        submitReport.setEventType("案件");
-        submitReport.setSubEventType("刑事案件");
-        submitReport.setDraftUserName("系统管理员");
-        submitReport.setDraftDeptNo("U000001");
-        SQLUpdater updater = new SQLUpdater(submitReport, new SQLCriteria("id = ?", new ArrayList<Object>() {{
+        String id = "T3-1634811784107";
+        Map<String, Object> values = new HashMap<String, Object>(){{
+            put(LambdaHelper.fieldName(SubmitReport::getSubject), Builder.register(SQLCriteria::new)
+                    .set(SQLCriteria::setExpression, LambdaHelper.fieldName(SubmitReport::getSubject) + "+ ? + NEWID()")
+                    .set(SQLCriteria::setValue, new ArrayList<Object>(){{
+                        add("--->>>--new->>>");
+                    }}).build());
+        }};
+
+        SQLUpdater updater = new SQLUpdater(SubmitReport.class, values, new SQLCriteria("id = ?", new ArrayList<Object>() {{
             add(id);
         }}));
         System.out.println(JSON.toJSONString(updater, true));
