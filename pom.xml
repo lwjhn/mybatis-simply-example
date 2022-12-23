@@ -4,11 +4,11 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.rongji.egov</groupId>
-    <artifactId>rj-mybatis-plus-example</artifactId>
+    <artifactId>mybatis-simply-example</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>rj-batis-plus-example</name>
+    <name>mybatis-simply-example</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
