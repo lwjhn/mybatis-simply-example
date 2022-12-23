@@ -39,14 +39,14 @@ public abstract class WorkflowBase extends AbstractWorkflowBase {
     /**
      * 经办用户
      */
-    @Reader(value = ACL.USER, prefix = "%\":\"", suffix = "\"%")
+    @Reader(value = ACL.USER)
     @TypeHandler(value = JsonTypeHandler.class)
     private FlowReaderList passReader;
 
     /**
      * 传阅用户、知会用户等
      */
-    @Reader(value = ACL.USER, prefix = "%\":\"", suffix = "\"%")
+    @Reader(value = ACL.USER)
     @TypeHandler(value = JsonTypeHandler.class)
     private FlowReaderList referReader;
 
@@ -54,7 +54,7 @@ public abstract class WorkflowBase extends AbstractWorkflowBase {
      * 扩展。可添加各类型角色等
      * 如特定岗位、群组等（一般使用群组）
      */
-    @Reader(prefix = "%\":\"", suffix = "\"%")
+    @Reader
     @TypeHandler(value = JsonTypeHandler.class)
     private FlowReaderList extensionReader;
 
